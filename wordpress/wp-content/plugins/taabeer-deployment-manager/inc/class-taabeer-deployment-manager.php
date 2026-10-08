@@ -13,6 +13,7 @@ final class Taabeer_Deployment_Manager {
 	const OPTION_SETTINGS = 'taabeer_deployment_settings';
 	const OPTION_TOKEN    = 'taabeer_deployment_github_token';
 	const OPTION_LAST     = 'taabeer_deployment_last_release';
+	const OPTION_BASELINE = 'taabeer_deployment_theme_baseline';
 	const TRANSIENT_CHECK = 'taabeer_deployment_release_check';
 	const CRON_HOOK       = 'taabeer_deployment_scheduled_check';
 	const THEME_SLUG      = 'taabeer';
@@ -38,6 +39,7 @@ final class Taabeer_Deployment_Manager {
 		add_action( 'admin_post_taabeer_deployment_install', array( $this, 'handle_install' ) );
 		add_action( self::CRON_HOOK, array( $this, 'scheduled_check' ) );
 		add_action( 'admin_notices', array( $this, 'update_available_notice' ) );
+		add_action( 'admin_init', array( $this, 'ensure_theme_baseline' ), 5 );
 		add_action( 'admin_init', array( $this, 'complete_initial_setup' ), 30 );
 	}
 
@@ -46,6 +48,7 @@ final class Taabeer_Deployment_Manager {
 		if ( ! wp_next_scheduled( self::CRON_HOOK ) ) {
 			wp_schedule_event( time() + 300, 'twicedaily', self::CRON_HOOK );
 		}
+		self::instance()->ensure_theme_baseline();
 	}
 
 	/** Remove scheduled work when the plugin is disabled. */
@@ -343,6 +346,22 @@ final class Taabeer_Deployment_Manager {
 			$this->redirect_with_message( 'error', $validation->get_error_message() );
 		}
 
+		$conflicts = $this->find_local_theme_conflicts( $package );
+		if ( is_wp_error( $conflicts ) ) {
+			@unlink( $package );
+			$this->redirect_with_message( 'error', $conflicts->get_error_message() );
+		}
+		if ( $conflicts ) {
+			@unlink( $package );
+			$this->redirect_with_message(
+				'error',
+				sprintf(
+					__( 'Update stopped because it would overwrite live theme-file changes: %s. Add those changes to the repository first.', 'taabeer-deployment' ),
+					implode( ', ', array_slice( $conflicts, 0, 5 ) )
+				)
+			);
+		}
+
 		$installed_theme = wp_get_theme( self::THEME_SLUG );
 		$first_install   = ! $installed_theme->exists();
 		$backup          = '';
@@ -376,6 +395,7 @@ final class Taabeer_Deployment_Manager {
 		if ( $was_active || $first_install ) {
 			switch_theme( self::THEME_SLUG );
 		}
+		$this->record_theme_baseline( $result['version'] );
 		if ( $first_install ) {
 			update_option( 'taabeer_pending_initial_setup', 'yes' );
 		}
@@ -468,6 +488,115 @@ final class Taabeer_Deployment_Manager {
 			return new WP_Error( 'taabeer_zip_version', __( 'The package version does not match the update manifest.', 'taabeer-deployment' ) );
 		}
 		return true;
+	}
+
+	/**
+	 * Record the current theme files so later live code edits can be detected.
+	 */
+	public function ensure_theme_baseline() {
+		if ( get_option( self::OPTION_BASELINE ) ) {
+			return;
+		}
+		$theme = wp_get_theme( self::THEME_SLUG );
+		if ( $theme->exists() ) {
+			$this->record_theme_baseline( $theme->get( 'Version' ) );
+		}
+	}
+
+	private function record_theme_baseline( $version ) {
+		$directory = get_theme_root( self::THEME_SLUG ) . '/' . self::THEME_SLUG;
+		$files     = $this->theme_file_manifest( $directory );
+		if ( is_wp_error( $files ) ) {
+			return $files;
+		}
+		update_option(
+			self::OPTION_BASELINE,
+			array(
+				'version'     => sanitize_text_field( (string) $version ),
+				'recorded_at' => current_time( 'mysql' ),
+				'files'       => $files,
+			),
+			false
+		);
+		return true;
+	}
+
+	private function theme_file_manifest( $directory ) {
+		if ( ! is_dir( $directory ) ) {
+			return new WP_Error( 'taabeer_manifest_directory', __( 'The installed TAABEER theme directory could not be read.', 'taabeer-deployment' ) );
+		}
+		$files    = array();
+		$iterator = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $directory, FilesystemIterator::SKIP_DOTS ) );
+		foreach ( $iterator as $file ) {
+			if ( ! $file->isFile() ) {
+				continue;
+			}
+			$path     = $file->getRealPath();
+			$relative = str_replace( '\\', '/', substr( $path, strlen( $directory ) + 1 ) );
+			if ( str_starts_with( $relative, '.git/' ) || '.DS_Store' === basename( $relative ) ) {
+				continue;
+			}
+			$hash = hash_file( 'sha256', $path );
+			if ( false === $hash ) {
+				return new WP_Error( 'taabeer_manifest_file', sprintf( __( 'The theme file %s could not be read.', 'taabeer-deployment' ), $relative ) );
+			}
+			$files[ $relative ] = $hash;
+		}
+		ksort( $files );
+		return $files;
+	}
+
+	/**
+	 * Return live file edits that are not present in the incoming package.
+	 *
+	 * A changed live file is safe when the incoming repository package contains
+	 * the exact same content, allowing a developer to commit the live correction
+	 * before deploying the next release.
+	 */
+	private function find_local_theme_conflicts( $package ) {
+		$theme = wp_get_theme( self::THEME_SLUG );
+		if ( ! $theme->exists() ) {
+			return array();
+		}
+
+		$baseline = get_option( self::OPTION_BASELINE, array() );
+		if ( empty( $baseline['files'] ) || ! is_array( $baseline['files'] ) ) {
+			$recorded = $this->record_theme_baseline( $theme->get( 'Version' ) );
+			return is_wp_error( $recorded ) ? $recorded : array();
+		}
+
+		$current = $this->theme_file_manifest( $theme->get_stylesheet_directory() );
+		if ( is_wp_error( $current ) ) {
+			return $current;
+		}
+
+		$zip = new ZipArchive();
+		if ( true !== $zip->open( $package ) ) {
+			return new WP_Error( 'taabeer_conflict_zip', __( 'The incoming package could not be inspected for live-file conflicts.', 'taabeer-deployment' ) );
+		}
+
+		$paths     = array_unique( array_merge( array_keys( $baseline['files'] ), array_keys( $current ) ) );
+		$conflicts = array();
+		foreach ( $paths as $relative ) {
+			$before = $baseline['files'][ $relative ] ?? null;
+			$now    = $current[ $relative ] ?? null;
+			if ( $before === $now ) {
+				continue;
+			}
+
+			$incoming = $zip->getFromName( self::THEME_SLUG . '/' . $relative );
+			if ( null === $now ) {
+				if ( false !== $incoming ) {
+					$conflicts[] = $relative;
+				}
+				continue;
+			}
+			if ( false === $incoming || ! hash_equals( $now, hash( 'sha256', $incoming ) ) ) {
+				$conflicts[] = $relative;
+			}
+		}
+		$zip->close();
+		return $conflicts;
 	}
 
 	private function backup_current_theme( $version ) {
@@ -571,7 +700,7 @@ final class Taabeer_Deployment_Manager {
 				<section class="taabeer-deployment__card">
 					<p class="taabeer-deployment__eyebrow"><?php esc_html_e( 'Installed theme', 'taabeer-deployment' ); ?></p>
 					<h2><?php echo esc_html( $theme->exists() ? 'TAABEER ' . $theme->get( 'Version' ) : __( 'Not installed', 'taabeer-deployment' ) ); ?></h2>
-					<p><?php esc_html_e( 'Code updates replace theme files. Pages, Elementor layouts, products, orders and settings remain in the database.', 'taabeer-deployment' ); ?></p>
+					<p><?php esc_html_e( 'Pages, Elementor layouts, products, orders and settings remain in the database. Direct live theme-file edits are checked before code is replaced.', 'taabeer-deployment' ); ?></p>
 					<?php if ( $last ) : ?>
 						<p class="description"><?php echo esc_html( sprintf( __( 'Last deployment: %1$s to %2$s on %3$s.', 'taabeer-deployment' ), $last['from'], $last['to'], $last['installed'] ) ); ?></p>
 					<?php endif; ?>

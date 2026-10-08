@@ -1,7 +1,7 @@
 === TAABEER Deployment Manager ===
 Requires at least: 6.4
 Requires PHP: 8.0
-Version: 1.0.0
+Version: 1.0.1
 License: GPL-2.0-or-later
 
 Installs and updates the TAABEER theme from a verified GitHub release without theme ZIP uploads.
@@ -19,7 +19,7 @@ The token is encrypted with this WordPress site's authentication salt and is nev
 
 == Safety ==
 
-The plugin validates the release manifest, SHA-256 checksum, archive paths, required theme files and package version. Before an existing theme is replaced, it creates a protected backup under wp-content/taabeer-update-backups.
+The plugin validates the release manifest, SHA-256 checksum, archive paths, required theme files and package version. It also detects direct changes to live theme files and blocks an update if the incoming package would overwrite them. Before an existing theme is replaced, it creates a protected backup under wp-content/taabeer-update-backups.
 
 On the first theme installation it activates TAABEER and runs the idempotent demo setup once. Later code deployments preserve Elementor layouts, pages, media, products, orders and settings stored in the WordPress database.
 

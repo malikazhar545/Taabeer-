@@ -4,13 +4,13 @@ The WordPress site receives theme code through **TAABEER Deployment Manager**. I
 
 ## First connection
 
-1. Install taabeer-deployment-manager-1.0.0.zip in WordPress.
+1. Install taabeer-deployment-manager-1.0.1.zip in WordPress.
 2. Activate it and open **Tools > TAABEER Updates**.
 3. Paste https://github.com/malikazhar545/Taabeer-.git.
 4. If the repository is private, create a fine-grained GitHub personal access token restricted to this repository with **Contents: Read-only**, then paste it into GitHub authentication.
 5. Save, select **Check GitHub**, then select **Install and activate**.
 
-The first deployment installs the theme, activates it and runs its idempotent demo importer. A later deployment creates a theme backup before replacing code. WordPress database content is preserved.
+The first deployment installs the theme, activates it and runs its idempotent demo importer. A later deployment checks for conflicting live theme-file edits and creates a theme backup before replacing code. WordPress database content is preserved.
 
 ## Publish a code update
 
@@ -25,4 +25,3 @@ Each GitHub Action run packages the theme, verifies its structure, generates a S
 ## Removing access
 
 Use **Disconnect GitHub** to remove the saved repository and encrypted token. Deactivating or deleting the plugin stops all update checks. The currently installed website remains unchanged.
-
