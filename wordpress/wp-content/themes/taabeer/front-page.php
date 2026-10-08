@@ -8,7 +8,7 @@ get_header();
 ?>
 <main id="main-content">
 	<?php if ( have_posts() ) : the_post(); ?>
-		<?php if ( taabeer_is_built_with_elementor() && trim( get_the_content() ) ) : ?>
+		<?php if ( taabeer_is_built_with_elementor() && ( trim( get_the_content() ) || get_post_meta( get_the_ID(), '_elementor_data', true ) ) ) : ?>
 			<?php the_content(); ?>
 		<?php else : ?>
 			<section class="home-hero">

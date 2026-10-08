@@ -119,7 +119,11 @@ class Taabeer_Elementor_Collections_Widget extends Taabeer_Elementor_Widget_Base
 			array( 'The Art of Expression', 'Art and collectible work selected for its visual language.', 'collection-expression.webp' ),
 			array( 'The Art of Leather', 'Bags and leather accessories chosen for shape, finish and purpose.', 'collection-leather.webp' ),
 		);
-		foreach ( $items as $item ) { $defaults[] = array( 'name' => $item[0], 'description' => $item[1], 'image' => array( 'url' => taabeer_demo_image_url( $item[2] ) ), 'link' => array( 'url' => home_url( '/collections/' ) ) ); }
+		foreach ( $items as $item ) {
+			$term = get_term_by( 'slug', sanitize_title( $item[0] ), 'taabeer_collection' );
+			$link = $term ? get_term_link( $term ) : home_url( '/collections/' );
+			$defaults[] = array( 'name' => $item[0], 'description' => $item[1], 'image' => array( 'url' => taabeer_demo_image_url( $item[2] ) ), 'link' => array( 'url' => is_wp_error( $link ) ? home_url( '/collections/' ) : $link ) );
+		}
 		$this->add_control( 'collections', array( 'label' => __( 'Collection cards', 'taabeer' ), 'type' => \Elementor\Controls_Manager::REPEATER, 'fields' => $repeater->get_controls(), 'default' => $defaults, 'title_field' => '{{{ name }}}' ) );
 		$this->end_controls_section();
 	}

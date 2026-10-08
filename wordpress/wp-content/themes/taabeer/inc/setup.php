@@ -44,6 +44,9 @@ add_action( 'after_setup_theme', 'taabeer_setup' );
 
 function taabeer_assets() {
 	wp_enqueue_style( 'taabeer-style', TAABEER_URI . '/assets/css/taabeer.css', array(), TAABEER_VERSION );
+	if ( is_front_page() ) {
+		wp_enqueue_style( 'taabeer-homepage', TAABEER_URI . '/assets/css/homepage.css', array( 'taabeer-style' ), TAABEER_VERSION );
+	}
 	wp_enqueue_script( 'taabeer-site', TAABEER_URI . '/assets/js/taabeer.js', array(), TAABEER_VERSION, true );
 	wp_localize_script(
 		'taabeer-site',
