@@ -1,0 +1,93 @@
+/* Collections overview: editorial image cards in the approved brand palette. */
+.taabeer-collections-page {
+  --taabeer-shell: min(1280px, calc(100% - 96px));
+}
+.taabeer-collections-page .elementor .elementor-section.elementor-section-boxed > .elementor-container { max-width: none; }
+.taabeer-collections-page .site-header__inner { width: var(--taabeer-shell); }
+.taabeer-collections-page .page-hero { padding-block: 68px 50px; gap: 22px 64px; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--taabeer-line); }
+.taabeer-collections-page .page-hero .eyebrow { font-size: .64rem; letter-spacing: .2em; color: #77643b; display: flex; align-items: center; gap: 16px; }
+.taabeer-collections-page .page-hero .eyebrow::before { content: ""; width: 38px; height: 1px; background: var(--taabeer-gold); }
+.taabeer-collections-page .page-hero h1 { color: var(--taabeer-green-deep); font-size: clamp(3.4rem, 6.5vw, 6rem); letter-spacing: -.04em; line-height: 1; margin: 0; }
+.taabeer-collections-page .page-hero .page-hero__intro { margin: 0; max-width: 52ch; color: var(--taabeer-muted); font-size: .98rem; line-height: 1.85; }
+.taabeer-collections-page .page-main .entry-content { width: var(--taabeer-shell); max-width: 1280px; margin-inline: auto; padding-block: 48px 0; }
+.taabeer-collections-page .collection-card-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 32px 24px; margin: 0; }
+.taabeer-collections-page .collection-tile { position: relative; grid-column: span 2; min-width: 0; background: var(--taabeer-ivory-dark); border: 1px solid rgba(37,39,34,.1); }
+.taabeer-collections-page .collection-tile:nth-child(4),
+.taabeer-collections-page .collection-tile:nth-child(5) { grid-column: span 3; }
+.taabeer-collections-page .collection-tile__image { overflow: hidden; aspect-ratio: 1.12; background: #e2d9c8; }
+.taabeer-collections-page .collection-tile:nth-child(n+4) .collection-tile__image { aspect-ratio: 1.7; }
+.taabeer-collections-page .collection-tile .collection-tile__image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 400ms ease; }
+.taabeer-collections-page .collection-tile__body { padding: 28px 26px 24px; }
+.taabeer-collections-page .collection-tile__number { display: block; color: #77643b; font: 500 .65rem / 1 var(--taabeer-sans); letter-spacing: .15em; margin-bottom: 18px; }
+.taabeer-collections-page .collection-tile h2 { margin: 0 0 14px; padding: 0; border: 0; font-size: clamp(1.7rem, 2.35vw, 2.5rem); line-height: 1.1; letter-spacing: -.025em; color: var(--taabeer-green-deep); text-wrap: balance; }
+.taabeer-collections-page .collection-tile h2 a { color: inherit; text-decoration: none; }
+.taabeer-collections-page .collection-tile h2 a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.taabeer-collections-page .collection-tile h2 a:focus-visible { outline: none; }
+.taabeer-collections-page .collection-tile:focus-within { outline: 2px solid var(--taabeer-green); outline-offset: 5px; }
+.taabeer-collections-page .collection-tile__body > p { font-size: .9rem; line-height: 1.8; color: #565c53; margin: 0; min-height: 3.6em; max-width: 50ch; }
+.taabeer-collections-page .collection-tile__body > p a { position: relative; z-index: 2; }
+.taabeer-collections-page .collection-tile__cta { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 28px; border-top: 1px solid var(--taabeer-line); padding-top: 18px; color: var(--taabeer-green); font: 600 .62rem / 1.5 var(--taabeer-sans); letter-spacing: .14em; text-transform: uppercase; }
+.taabeer-collections-page .collection-tile__cta > span { font-size: 1.3rem; line-height: 1; font-weight: 400; }
+@media (hover: hover) {
+  .taabeer-collections-page .collection-tile:hover img { transform: scale(1.025); }
+  .taabeer-collections-page .collection-tile:hover .collection-tile__cta { color: #77643b; }
+}
+@media (max-width: 1050px) {
+  .taabeer-collections-page { --taabeer-shell: calc(100% - 64px); }
+  .taabeer-collections-page .page-hero { gap: 22px 36px; }
+  .taabeer-collections-page .collection-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .taabeer-collections-page .collection-tile,
+  .taabeer-collections-page .collection-tile:nth-child(4),
+  .taabeer-collections-page .collection-tile:nth-child(5) { grid-column: auto; }
+  .taabeer-collections-page .collection-tile:nth-child(n+4) .collection-tile__image { aspect-ratio: 1.12; }
+  .taabeer-collections-page .collection-tile:last-child { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; }
+  .taabeer-collections-page .collection-tile:last-child .collection-tile__image { height: 100%; aspect-ratio: auto; min-height: 300px; }
+  .taabeer-collections-page .collection-tile:last-child .collection-tile__body { align-self: center; }
+}
+@media (max-width: 600px) {
+  .taabeer-collections-page { --taabeer-shell: calc(100% - 40px); }
+  .taabeer-collections-page .page-hero { grid-template-columns: 1fr; padding-block: 44px 32px; gap: 22px; }
+  .taabeer-collections-page .page-hero h1 { font-size: clamp(2.9rem, 12vw, 4rem); }
+  .taabeer-collections-page .page-hero .page-hero__intro { font-size: .93rem; line-height: 1.8; }
+  .taabeer-collections-page .page-main .entry-content { padding-top: 30px; }
+  .taabeer-collections-page .collection-card-grid { grid-template-columns: 1fr; gap: 24px; }
+  .taabeer-collections-page .collection-tile:last-child { display: block; grid-column: auto; }
+  .taabeer-collections-page .collection-tile .collection-tile__image,
+  .taabeer-collections-page .collection-tile:last-child .collection-tile__image { aspect-ratio: 1.2; height: auto; min-height: 0; }
+  .taabeer-collections-page .collection-tile__body { padding: 24px; }
+  .taabeer-collections-page .collection-tile h2 { font-size: 1.95rem; }
+  .taabeer-collections-page .collection-tile__body > p { min-height: 0; }
+  .taabeer-collections-page .collection-tile__cta { margin-top: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .taabeer-collections-page .collection-tile .collection-tile__image img { transition: none; }
+}
+
+/* Carry the reviewed footer onto this page only. */
+.taabeer-collections-page .site-footer { margin-top: 96px; padding-top: 0; }
+.taabeer-collections-page .site-footer__lead { max-width: none; display: grid; grid-template-columns: 1.5fr 1fr; text-align: left; align-items: end; gap: 18px 80px; padding-block: 62px 54px; }
+.taabeer-collections-page .site-footer__lead .eyebrow { grid-column: 1 / -1; color: #d4be90; margin: 0; font-family: var(--taabeer-serif); font-size: 1.6rem; letter-spacing: .25em; font-weight: 400; }
+.taabeer-collections-page .site-footer__lead h2 { color: var(--taabeer-ivory); max-width: 23ch; margin: 0; font-size: clamp(2rem, 3.4vw, 3.4rem); line-height: 1.13; text-wrap: balance; }
+.taabeer-collections-page .site-footer__lead > a { justify-self: end; align-self: end; margin-bottom: 5px; padding-block: 12px; border-bottom: 1px solid rgba(247,243,234,.35); }
+.taabeer-collections-page .site-footer__grid { grid-template-columns: 1.5fr 1fr 1fr; gap: 70px; padding-block: 44px; }
+.taabeer-collections-page .site-footer__grid > div:first-child .site-footer__menu { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 24px; }
+.taabeer-collections-page .site-footer__grid > div:first-child .site-footer__menu li { margin: 0; }
+.taabeer-collections-page .site-footer h3 { font-size: .63rem; margin-bottom: 18px; color: #d4be90; }
+.taabeer-collections-page .site-footer__grid p { font-size: .88rem; line-height: 1.8; }
+.taabeer-collections-page .site-footer__menu a { display: inline-block; padding-block: 3px; }
+.taabeer-collections-page .site-footer__menu a:hover { color: #d4be90; }
+.taabeer-collections-page .site-footer__bottom { font-size: .59rem; letter-spacing: .09em; align-items: center; padding-block: 22px; }
+.taabeer-collections-page .site-footer__cookie-button { padding: 0; }
+@media (max-width: 782px) {
+  .taabeer-collections-page .site-footer { margin-top: 64px; }
+  .taabeer-collections-page .site-footer__lead { padding-block: 42px 32px; grid-template-columns: 1fr; gap: 22px; }
+  .taabeer-collections-page .site-footer__lead .eyebrow { font-size: 1.35rem; }
+  .taabeer-collections-page .site-footer__lead h2 { font-size: 2rem; max-width: 24ch; }
+  .taabeer-collections-page .site-footer__lead > a { justify-self: start; margin: 0; }
+  .taabeer-collections-page .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 32px 22px; padding-block: 32px; }
+  .taabeer-collections-page .site-footer__grid > div:first-child { grid-column: 1 / -1; }
+  .taabeer-collections-page .site-footer__bottom { align-items: flex-start; gap: 14px; }
+  .taabeer-collections-page .site-footer__bottom nav { gap: 14px; }
+}
+
+.taabeer-collections-page .site-footer__menu a { font-size: .88rem; line-height: 1.8; }
