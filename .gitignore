@@ -1,0 +1,6 @@
+.env
+artifacts/
+qa/
+tmp/
+__pycache__/
+*.log
