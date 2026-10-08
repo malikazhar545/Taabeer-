@@ -54,7 +54,7 @@
 			<a class="site-header__action" href="<?php echo esc_url( home_url( '/?s=' ) ); ?>" aria-label="<?php esc_attr_e( 'Search', 'taabeer' ); ?>">
 				<svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m16 16 4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
 			</a>
-			<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+			<?php if ( class_exists( 'WooCommerce' ) && function_exists( 'taabeer_commerce_is_live' ) && taabeer_commerce_is_live() ) : ?>
 				<a class="site-header__action" href="<?php echo esc_url( wc_get_cart_url() ); ?>" aria-label="<?php esc_attr_e( 'Shopping bag', 'taabeer' ); ?>">
 					<svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path d="M5 8h14l-1 13H6L5 8Z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9 9V6a3 3 0 0 1 6 0v3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
 				</a>

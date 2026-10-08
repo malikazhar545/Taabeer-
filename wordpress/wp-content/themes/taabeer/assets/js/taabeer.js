@@ -73,18 +73,21 @@
     try { window.localStorage.setItem(cookieName, choice); } catch (error) {}
     document.cookie = cookieName + "=" + encodeURIComponent(choice) + "; Max-Age=15552000; Path=/; SameSite=Lax";
     if ( banner ) banner.hidden = true;
+    document.body.classList.remove("cookie-banner-open");
     if ( choice === "all" ) loadAnalytics();
   }
 
   if ( banner ) {
     var choice = getChoice();
     banner.hidden = Boolean(choice);
+    document.body.classList.toggle("cookie-banner-open", !choice);
     banner.querySelectorAll("[data-cookie-choice]").forEach(function (button) {
       button.addEventListener("click", function () { saveChoice(button.getAttribute("data-cookie-choice")); });
     });
     settingsButtons.forEach(function (button) {
       button.addEventListener("click", function () {
         banner.hidden = false;
+        document.body.classList.add("cookie-banner-open");
         var first = banner.querySelector("button");
         if ( first ) first.focus();
       });

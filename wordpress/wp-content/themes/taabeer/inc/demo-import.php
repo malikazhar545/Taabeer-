@@ -190,14 +190,14 @@ function taabeer_import_pages() {
 			taabeer_elementor_contact_data(),
 		),
 		'privacy-policy' => array(
-			'Privacy Policy', 'draft', 0,
-			'<h2>Policy content pending approval</h2><p>This page must be completed after the website services, processors, retention decisions, analytics, newsletter and commerce features are confirmed.</p>',
-			taabeer_elementor_standard_page( 'Privacy Policy', 'Draft template for legal review', '<p>This page must be completed and approved against the finished website configuration before publication.</p>' ),
+			'Privacy Policy', 'publish', 0,
+			taabeer_privacy_policy_copy(),
+			taabeer_elementor_standard_page( 'Privacy Policy', 'How TAABEER handles information shared through this website.', taabeer_privacy_policy_copy() ),
 		),
 		'cookie-policy' => array(
-			'Cookie Policy', 'draft', 0,
-			'<h2>Cookie inventory pending</h2><p>Document the cookies and similar technologies used by the finished build, including providers, purposes and durations.</p>',
-			taabeer_elementor_standard_page( 'Cookie Policy', 'Draft template for legal review', '<p>Complete this page after the final cookie audit and consent configuration.</p>' ),
+			'Cookie Policy', 'publish', 0,
+			taabeer_cookie_policy_copy(),
+			taabeer_elementor_standard_page( 'Cookie Policy', 'The choices available when this website uses cookies and similar technologies.', taabeer_cookie_policy_copy() ),
 		),
 	);
 
@@ -367,7 +367,7 @@ function taabeer_import_woocommerce_data() {
 }
 
 function taabeer_collection_page_markup() {
-	return '<div class="collection-list"><h2>The Art of Wear</h2><p>Textiles and clothing chosen for their character, detail and ease of wear.</p><h2>The Art of Adornment</h2><p>Jewellery and decorative accessories that bring a distinctive finishing touch.</p><h2>The Art of Living</h2><p>Furniture, decorative pieces and useful designs that bring character to everyday spaces.</p><h2>The Art of Expression</h2><p>Art and collectible work selected for its visual language and point of view.</p><h2>The Art of Leather</h2><p>Bags and leather accessories chosen for shape, finish and everyday purpose.</p></div>';
+	return '<div class="collection-list"><h2><a href="' . esc_url( home_url( '/collection/the-art-of-wear/' ) ) . '">The Art of Wear</a></h2><p>Textiles and clothing chosen for their character, detail and ease of wear.</p><h2><a href="' . esc_url( home_url( '/collection/the-art-of-adornment/' ) ) . '">The Art of Adornment</a></h2><p>Jewellery and decorative accessories that bring a distinctive finishing touch.</p><h2><a href="' . esc_url( home_url( '/collection/the-art-of-living/' ) ) . '">The Art of Living</a></h2><p>Furniture, decorative pieces and useful designs that bring character to everyday spaces.</p><h2><a href="' . esc_url( home_url( '/collection/the-art-of-expression/' ) ) . '">The Art of Expression</a></h2><p>Art and collectible work selected for its visual language and point of view.</p><h2><a href="' . esc_url( home_url( '/collection/the-art-of-leather/' ) ) . '">The Art of Leather</a></h2><p>Bags and leather accessories chosen for shape, finish and everyday purpose.</p></div>';
 }
 
 function taabeer_discover_page_markup() {
@@ -375,7 +375,15 @@ function taabeer_discover_page_markup() {
 }
 
 function taabeer_region_cards_markup() {
-	return '<div class="region-list"><p>Punjab</p><p>Balochistan</p><p>Sindh</p><p>Khyber Pakhtunkhwa</p><p>Gilgit-Baltistan</p></div>';
+	return '<div class="region-list"><p><a href="' . esc_url( home_url( '/region/punjab/' ) ) . '">Punjab</a></p><p><a href="' . esc_url( home_url( '/region/balochistan/' ) ) . '">Balochistan</a></p><p><a href="' . esc_url( home_url( '/region/sindh/' ) ) . '">Sindh</a></p><p><a href="' . esc_url( home_url( '/region/khyber-pakhtunkhwa/' ) ) . '">Khyber Pakhtunkhwa</a></p><p><a href="' . esc_url( home_url( '/region/gilgit-baltistan/' ) ) . '">Gilgit-Baltistan</a></p></div>';
+}
+
+function taabeer_privacy_policy_copy() {
+	return '<h2>Information you share</h2><p>When you contact TAABEER, we may receive your name, email address, telephone number and the details included in your enquiry. If newsletter registration is introduced, we will also record your subscription choice.</p><h2>How information is used</h2><p>We use this information to reply to enquiries, discuss partnerships, provide requested updates and operate the website. We only keep it for as long as it is needed for those purposes or to meet applicable record-keeping requirements.</p><h2>Website services</h2><p>Essential technical data may be processed to keep the website secure and working. Optional analytics will only run after consent. If ecommerce is enabled later, this policy will be updated to identify the services used for orders, payments, delivery and customer accounts.</p><h2>Sharing and access</h2><p>Information may be handled by trusted website, hosting or email providers where needed to provide the service. You can ask about the information TAABEER holds about you, request a correction or raise a privacy question through the contact page.</p><p><a class="button button--outline" href="' . esc_url( home_url( '/contact/' ) ) . '">Contact TAABEER</a></p>';
+}
+
+function taabeer_cookie_policy_copy() {
+	return '<h2>What cookies do</h2><p>Cookies are small files stored by a browser. TAABEER uses essential storage to remember privacy choices and support the secure operation of this website.</p><h2>Optional analytics</h2><p>Analytics will only be used after you select “Accept analytics”. It helps us understand how visitors use the website so we can improve its content and performance. The final service and cookie inventory will be recorded here when analytics is connected.</p><h2>Your choices</h2><p>You can accept optional analytics or continue with essential cookies only. Use “Cookie settings” in the footer at any time to choose again. You can also remove stored cookies through your browser settings.</p><h2>Future services</h2><p>If newsletter, ecommerce, payment or embedded media services introduce additional cookies, this page and the consent controls will be updated before those services are enabled.</p>';
 }
 
 function taabeer_about_copy() {

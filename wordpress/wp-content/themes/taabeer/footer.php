@@ -37,8 +37,10 @@ $address      = get_theme_mod( 'taabeer_address', '' );
 			<?php endif; ?>
 		</div>
 		<div>
-			<h3><?php esc_html_e( 'Follow', 'taabeer' ); ?></h3>
+			<h3><?php esc_html_e( 'Information', 'taabeer' ); ?></h3>
 			<ul class="site-footer__menu">
+				<li><a href="<?php echo esc_url( get_privacy_policy_url() ?: home_url( '/privacy-policy/' ) ); ?>"><?php esc_html_e( 'Privacy Policy', 'taabeer' ); ?></a></li>
+				<li><a href="<?php echo esc_url( home_url( '/cookie-policy/' ) ); ?>"><?php esc_html_e( 'Cookie Policy', 'taabeer' ); ?></a></li>
 				<?php if ( get_theme_mod( 'taabeer_instagram' ) ) : ?><li><a href="<?php echo esc_url( get_theme_mod( 'taabeer_instagram' ) ); ?>">Instagram</a></li><?php endif; ?>
 				<?php if ( get_theme_mod( 'taabeer_pinterest' ) ) : ?><li><a href="<?php echo esc_url( get_theme_mod( 'taabeer_pinterest' ) ); ?>">Pinterest</a></li><?php endif; ?>
 			</ul>
