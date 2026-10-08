@@ -371,7 +371,7 @@ function taabeer_collection_page_markup() {
 }
 
 function taabeer_discover_page_markup() {
-	return '<div class="editorial-index"><h2><a href="' . esc_url( home_url( '/discover-pakistan/regions/' ) ) . '">Pakistan by Region</a></h2><p>Punjab, Balochistan, Sindh, Khyber Pakhtunkhwa and Gilgit-Baltistan.</p><h2><a href="' . esc_url( home_url( '/discover-pakistan/pakistan-in-the-making/' ) ) . '">Pakistan in the Making</a></h2><p>Cultural encounters, historical connections and the changing context of design.</p><h2><a href="' . esc_url( home_url( '/discover-pakistan/contemporary-pakistan/' ) ) . '">Contemporary Pakistan</a></h2><p>Design through the perspectives of people working today.</p><h2><a href="' . esc_url( home_url( '/discover-pakistan/new-voices/' ) ) . '">New Voices</a></h2><p>Emerging designers and independent studios.</p></div>';
+	return taabeer_discover_features_from_legacy( '<div class="editorial-index"><h2><a href="' . esc_url( home_url( '/discover-pakistan/regions/' ) ) . '">Pakistan by Region</a></h2><p>Punjab, Balochistan, Sindh, Khyber Pakhtunkhwa and Gilgit-Baltistan.</p><h2><a href="' . esc_url( home_url( '/discover-pakistan/pakistan-in-the-making/' ) ) . '">Pakistan in the Making</a></h2><p>Cultural encounters, historical connections and the changing context of design.</p><h2><a href="' . esc_url( home_url( '/discover-pakistan/contemporary-pakistan/' ) ) . '">Contemporary Pakistan</a></h2><p>Design through the perspectives of people working today.</p><h2><a href="' . esc_url( home_url( '/discover-pakistan/new-voices/' ) ) . '">New Voices</a></h2><p>Emerging designers and independent studios.</p></div>' );
 }
 
 function taabeer_region_cards_markup() {

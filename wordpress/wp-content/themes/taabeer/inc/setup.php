@@ -50,6 +50,9 @@ function taabeer_assets() {
 	if ( is_page( 'collections' ) ) {
 		wp_enqueue_style( 'taabeer-collections-page', TAABEER_URI . '/assets/css/collections.css', array( 'taabeer-style' ), TAABEER_VERSION );
 	}
+	if ( is_page( 'discover-pakistan' ) ) {
+		wp_enqueue_style( 'taabeer-discover-page', TAABEER_URI . '/assets/css/discover.css', array( 'taabeer-style' ), TAABEER_VERSION );
+	}
 	wp_enqueue_script( 'taabeer-site', TAABEER_URI . '/assets/js/taabeer.js', array(), TAABEER_VERSION, true );
 	wp_localize_script(
 		'taabeer-site',
@@ -73,6 +76,9 @@ function taabeer_body_classes( $classes ) {
 	$classes[] = 'taabeer-site';
 	if ( is_page( 'collections' ) ) {
 		$classes[] = 'taabeer-collections-page';
+	}
+	if ( is_page( 'discover-pakistan' ) ) {
+		$classes[] = 'taabeer-discover-page';
 	}
 	if ( is_singular( 'heritage_story' ) ) {
 		$classes[] = 'taabeer-longform';

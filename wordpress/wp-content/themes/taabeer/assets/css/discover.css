@@ -1,0 +1,92 @@
+/* Discover Pakistan: a lead feature followed by three editorial pathways. */
+.taabeer-discover-page { --taabeer-shell: min(1280px, calc(100% - 96px)); }
+.taabeer-discover-page .elementor .elementor-section.elementor-section-boxed > .elementor-container { max-width: none; }
+.taabeer-discover-page .site-header__inner { width: var(--taabeer-shell); }
+.taabeer-discover-page .page-hero { padding-block: 60px 44px; gap: 24px 80px; grid-template-columns: 1.1fr 1fr; border: 0; align-items: center; }
+.taabeer-discover-page .page-hero .eyebrow { font-size: .64rem; letter-spacing: .22em; color: #77643b; display: flex; align-items: center; gap: 16px; }
+.taabeer-discover-page .page-hero .eyebrow::before { content: ""; width: 38px; height: 1px; background: var(--taabeer-gold); }
+.taabeer-discover-page .page-hero h1 { color: var(--taabeer-green-deep); max-width: 11ch; font-size: clamp(3.25rem, 5.7vw, 5.4rem); line-height: 1.02; letter-spacing: -.035em; margin: 0; text-wrap: balance; }
+.taabeer-discover-page .page-hero .page-hero__intro { margin: 0; max-width: 51ch; color: var(--taabeer-muted); font-size: .98rem; line-height: 1.85; }
+.taabeer-discover-page .page-main .entry-content { width: var(--taabeer-shell); max-width: 1280px; margin-inline: auto; padding: 0; }
+.taabeer-discover-page .discover-editorial { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 64px 32px; }
+.taabeer-discover-page .discover-feature-link { position: relative; min-width: 0; margin: 0; }
+.taabeer-discover-page .discover-feature-link__image { aspect-ratio: 1.25; overflow: hidden; background: var(--taabeer-ivory-dark); }
+.taabeer-discover-page .discover-feature-link .discover-feature-link__image img { width: 100%; height: 100%; object-fit: cover; transition: transform 400ms ease; }
+.taabeer-discover-page .discover-feature-link__body { padding-top: 24px; }
+.taabeer-discover-page .discover-feature-link__number { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; color: #77643b; font: 500 .64rem / 1 var(--taabeer-sans); letter-spacing: .15em; }
+.taabeer-discover-page .discover-feature-link__number::after { content: ""; height: 1px; width: 28px; background: var(--taabeer-gold); }
+.taabeer-discover-page .discover-feature-link h2 { padding: 0; margin: 0 0 16px; border: 0; font-size: clamp(1.9rem, 2.6vw, 2.65rem); line-height: 1.1; letter-spacing: -.025em; color: var(--taabeer-green-deep); text-wrap: balance; }
+.taabeer-discover-page .discover-feature-link h2 a { color: inherit; text-decoration: none; }
+.taabeer-discover-page .discover-feature-link h2 a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.taabeer-discover-page .discover-feature-link h2 a:focus-visible { outline: none; }
+.taabeer-discover-page .discover-feature-link:focus-within { outline: 2px solid var(--taabeer-gold); outline-offset: 6px; }
+.taabeer-discover-page .discover-feature-link__body > p { color: #565c53; margin: 0; max-width: 43ch; font-size: .93rem; line-height: 1.8; }
+.taabeer-discover-page .discover-feature-link__body > p a { position: relative; z-index: 2; }
+.taabeer-discover-page .discover-feature-link__cta { display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid var(--taabeer-line); margin-top: 28px; padding-block: 18px 4px; color: var(--taabeer-green); font: 600 .62rem / 1.5 var(--taabeer-sans); letter-spacing: .14em; text-transform: uppercase; }
+.taabeer-discover-page .discover-feature-link__cta > span { font-size: 1.3rem; line-height: 1; font-weight: 400; }
+.taabeer-discover-page .discover-feature-link:first-child { grid-column: 1 / -1; display: grid; grid-template-columns: 1.35fr 1fr; min-height: 420px; background: var(--taabeer-green-deep); }
+.taabeer-discover-page .discover-feature-link:first-child .discover-feature-link__image { aspect-ratio: auto; height: 100%; min-height: 420px; }
+.taabeer-discover-page .discover-feature-link:first-child .discover-feature-link__body { align-self: center; padding: clamp(32px, 4.4vw, 64px); }
+.taabeer-discover-page .discover-feature-link:first-child h2 { font-size: clamp(2.5rem, 3.7vw, 3.65rem); color: var(--taabeer-ivory); max-width: 13ch; margin-bottom: 24px; }
+.taabeer-discover-page .discover-feature-link:first-child .discover-feature-link__number { color: #d4be90; margin-bottom: 28px; }
+.taabeer-discover-page .discover-feature-link:first-child p { color: #dddcd0; }
+.taabeer-discover-page .discover-feature-link:first-child .discover-feature-link__cta { color: var(--taabeer-ivory); border-color: rgba(247,243,234,.3); margin-top: 32px; }
+@media (hover: hover) {
+  .taabeer-discover-page .discover-feature-link:hover img { transform: scale(1.025); }
+  .taabeer-discover-page .discover-feature-link:hover .discover-feature-link__cta > span { color: var(--taabeer-gold); }
+}
+@media (max-width: 1050px) {
+  .taabeer-discover-page { --taabeer-shell: calc(100% - 64px); }
+  .taabeer-discover-page .page-hero { gap: 24px 36px; }
+  .taabeer-discover-page .discover-editorial { column-gap: 24px; }
+  .taabeer-discover-page .discover-feature-link:first-child { grid-template-columns: 1fr 1fr; }
+  .taabeer-discover-page .discover-feature-link:first-child .discover-feature-link__body { padding: 32px; }
+  .taabeer-discover-page .discover-feature-link h2 { font-size: 1.9rem; }
+}
+@media (max-width: 782px) {
+  .taabeer-discover-page { --taabeer-shell: calc(100% - 40px); }
+  .taabeer-discover-page .page-hero { grid-template-columns: 1fr; gap: 20px; padding-block: 42px 32px; }
+  .taabeer-discover-page .page-hero h1 { font-size: clamp(2.8rem, 10.5vw, 4rem); max-width: 14ch; }
+  .taabeer-discover-page .page-hero .page-hero__intro { font-size: .93rem; }
+  .taabeer-discover-page .discover-editorial { grid-template-columns: 1fr; gap: 40px; }
+  .taabeer-discover-page .discover-feature-link:first-child { grid-column: auto; display: block; min-height: 0; }
+  .taabeer-discover-page .discover-feature-link:first-child .discover-feature-link__image { aspect-ratio: 1.4; height: auto; min-height: 0; }
+  .taabeer-discover-page .discover-feature-link:first-child .discover-feature-link__body { padding: 28px; }
+  .taabeer-discover-page .discover-feature-link:first-child h2 { font-size: 2.35rem; margin-bottom: 18px; }
+  .taabeer-discover-page .discover-feature-link:first-child .discover-feature-link__number { margin-bottom: 20px; }
+  .taabeer-discover-page .discover-feature-link__image { aspect-ratio: 1.45; }
+  .taabeer-discover-page .discover-feature-link h2 { font-size: 2.1rem; }
+  .taabeer-discover-page .discover-feature-link__cta { margin-top: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .taabeer-discover-page .discover-feature-link .discover-feature-link__image img { transition: none; }
+}
+
+/* Carry the reviewed footer onto this page only. */
+.taabeer-discover-page .site-footer { margin-top: 96px; padding-top: 0; }
+.taabeer-discover-page .site-footer__lead { max-width: none; display: grid; grid-template-columns: 1.5fr 1fr; text-align: left; align-items: end; gap: 18px 80px; padding-block: 62px 54px; }
+.taabeer-discover-page .site-footer__lead .eyebrow { grid-column: 1 / -1; color: #d4be90; margin: 0; font-family: var(--taabeer-serif); font-size: 1.6rem; letter-spacing: .25em; font-weight: 400; }
+.taabeer-discover-page .site-footer__lead h2 { color: var(--taabeer-ivory); max-width: 23ch; margin: 0; font-size: clamp(2rem, 3.4vw, 3.4rem); line-height: 1.13; text-wrap: balance; }
+.taabeer-discover-page .site-footer__lead > a { justify-self: end; align-self: end; margin-bottom: 5px; padding-block: 12px; border-bottom: 1px solid rgba(247,243,234,.35); }
+.taabeer-discover-page .site-footer__grid { grid-template-columns: 1.5fr 1fr 1fr; gap: 70px; padding-block: 44px; }
+.taabeer-discover-page .site-footer__grid > div:first-child .site-footer__menu { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 24px; }
+.taabeer-discover-page .site-footer__grid > div:first-child .site-footer__menu li { margin: 0; }
+.taabeer-discover-page .site-footer h3 { font-size: .63rem; margin-bottom: 18px; color: #d4be90; }
+.taabeer-discover-page .site-footer__grid p { font-size: .88rem; line-height: 1.8; }
+.taabeer-discover-page .site-footer__menu a { display: inline-block; padding-block: 3px; }
+.taabeer-discover-page .site-footer__menu a:hover { color: #d4be90; }
+.taabeer-discover-page .site-footer__bottom { font-size: .59rem; letter-spacing: .09em; align-items: center; padding-block: 22px; }
+.taabeer-discover-page .site-footer__cookie-button { padding: 0; }
+@media (max-width: 782px) {
+  .taabeer-discover-page .site-footer { margin-top: 64px; }
+  .taabeer-discover-page .site-footer__lead { padding-block: 42px 32px; grid-template-columns: 1fr; gap: 22px; }
+  .taabeer-discover-page .site-footer__lead .eyebrow { font-size: 1.35rem; }
+  .taabeer-discover-page .site-footer__lead h2 { font-size: 2rem; max-width: 24ch; }
+  .taabeer-discover-page .site-footer__lead > a { justify-self: start; margin: 0; }
+  .taabeer-discover-page .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 32px 22px; padding-block: 32px; }
+  .taabeer-discover-page .site-footer__grid > div:first-child { grid-column: 1 / -1; }
+  .taabeer-discover-page .site-footer__bottom { align-items: flex-start; gap: 14px; }
+  .taabeer-discover-page .site-footer__bottom nav { gap: 14px; }
+}
+
+.taabeer-discover-page .site-footer__menu a { font-size: .88rem; line-height: 1.8; }
