@@ -140,3 +140,4 @@ function taabeer_disable_purchasing( $purchasable ) {
 	return taabeer_commerce_is_live() ? $purchasable : false;
 }
 add_filter( 'woocommerce_is_purchasable', 'taabeer_disable_purchasing' );
+add_filter( 'woocommerce_variation_is_purchasable', 'taabeer_disable_purchasing' );

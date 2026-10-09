@@ -5,6 +5,12 @@
  * @package Taabeer
  */
 get_header();
+if ( function_exists( 'taabeer_visual_template' ) && get_option( 'taabeer_visual_foundation' ) ) {
+	echo '<main id="main-content" class="page-main">';
+	if ( taabeer_visual_template( 'collection' ) ) { echo '</main>'; get_footer(); return; }
+	echo '</main>';
+}
+
 $term = get_queried_object();
 ?>
 <main id="main-content" class="page-main">

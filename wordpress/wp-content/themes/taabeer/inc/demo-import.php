@@ -10,9 +10,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function taabeer_setup_menu() {
-	add_theme_page( __( 'Taabeer Setup', 'taabeer' ), __( 'Taabeer Setup', 'taabeer' ), 'manage_options', 'taabeer-setup', 'taabeer_setup_screen' );
+	add_menu_page( 'TAABEER', 'TAABEER', 'manage_options', 'taabeer-setup', 'taabeer_setup_screen', 'dashicons-art', 3 );
+	add_submenu_page('taabeer-setup','Setup & editing','Setup & editing','manage_options','taabeer-setup','taabeer_setup_screen');
+	add_submenu_page('taabeer-setup','Header & footer','Header & footer','edit_pages','edit.php?post_type=elementor-hf');
 }
 add_action( 'admin_menu', 'taabeer_setup_menu' );
+add_action('admin_menu',function(){
+	if(class_exists('Taabeer_Deployment_Manager')) {
+		remove_submenu_page('tools.php','taabeer-updates');
+		add_submenu_page('taabeer-setup','TAABEER Updates','GitHub updates','update_themes','taabeer-updates',array(Taabeer_Deployment_Manager::instance(),'render_admin_page'));
+	}
+},99);
 
 function taabeer_setup_screen() {
 	if ( ! current_user_can( 'manage_options' ) ) {
@@ -30,12 +38,13 @@ function taabeer_setup_screen() {
 			<div class="notice notice-success"><p><?php esc_html_e( 'The Taabeer demo has been imported. Review every page and replace concept photography before publication.', 'taabeer' ); ?></p></div>
 		<?php endif; ?>
 
+		<?php if ( function_exists( 'taabeer_visual_setup_panel' ) ) { taabeer_visual_setup_panel(); } ?>
 		<div class="taabeer-setup-grid">
 			<section class="taabeer-setup-card">
 				<h2><?php esc_html_e( 'Required editing tools', 'taabeer' ); ?></h2>
 				<p><strong>Elementor:</strong> <?php echo $elementor ? '<span class="taabeer-ok">' . esc_html__( 'Active', 'taabeer' ) . '</span>' : '<span>' . esc_html__( 'Install the free plugin before editing layouts.', 'taabeer' ) . '</span>'; ?></p>
 				<?php if ( ! $elementor ) : ?><p><a class="button" href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=elementor' ), 'install-plugin_elementor' ) ); ?>"><?php esc_html_e( 'Install Elementor', 'taabeer' ); ?></a></p><?php endif; ?>
-				<p><strong>WooCommerce:</strong> <?php echo $commerce ? '<span class="taabeer-ok">' . esc_html__( 'Active', 'taabeer' ) . '</span>' : '<span>' . esc_html__( 'Optional now; required before product import and selling.', 'taabeer' ) . '</span>'; ?></p>
+				<p><strong>WooCommerce:</strong> <?php echo $commerce ? '<span class="taabeer-ok">' . esc_html__( 'Active', 'taabeer' ) . '</span>' : '<span>' . esc_html__( 'Required and kept in preview mode until launch.', 'taabeer' ) . '</span>'; ?></p>
 				<?php if ( ! $commerce ) : ?><p><a class="button" href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=woocommerce' ), 'install-plugin_woocommerce' ) ); ?>"><?php esc_html_e( 'Install WooCommerce', 'taabeer' ); ?></a></p><?php endif; ?>
 			</section>
 
@@ -77,7 +86,11 @@ function taabeer_handle_settings_save() {
 	}
 	update_option( 'taabeer_ga_measurement_id', $measurement );
 	update_option( 'taabeer_commerce_enabled', isset( $_POST['taabeer_commerce_enabled'] ) ? 'yes' : 'no' );
-	wp_safe_redirect( admin_url( 'themes.php?page=taabeer-setup&settings-updated=1' ) );
+	if ( isset( $_POST['taabeer_commerce_enabled'] ) ) {
+		foreach ( array( 'shop', 'cart', 'checkout', 'myaccount' ) as $key ) { $id = get_option( 'woocommerce_' . $key . '_page_id' ); if ( $id && get_post_meta( $id, '_taabeer_preview_only', true ) ) { wp_update_post( array( 'ID'=>$id, 'post_status'=>'publish' ) ); } }
+		update_option( 'woocommerce_coming_soon', 'no' );
+	}
+	wp_safe_redirect( admin_url( 'admin.php?page=taabeer-setup&settings-updated=1' ) );
 	exit;
 }
 add_action( 'admin_post_taabeer_save_settings', 'taabeer_handle_settings_save' );
@@ -88,7 +101,7 @@ function taabeer_handle_demo_import() {
 	}
 	taabeer_run_demo_import();
 
-	wp_safe_redirect( admin_url( 'themes.php?page=taabeer-setup&taabeer_import=success' ) );
+	wp_safe_redirect( admin_url( 'admin.php?page=taabeer-setup&taabeer_import=success' ) );
 	exit;
 }
 add_action( 'admin_post_taabeer_import_demo', 'taabeer_handle_demo_import' );
@@ -124,6 +137,7 @@ function taabeer_run_demo_import() {
 	update_option( 'taabeer_commerce_enabled', get_option( 'taabeer_commerce_enabled', 'no' ) );
 	flush_rewrite_rules();
 
+	if ( function_exists( 'taabeer_complete_visual_foundation' ) ) { delete_option( 'taabeer_visual_foundation' ); taabeer_complete_visual_foundation(); }
 	return $pages;
 }
 
@@ -211,7 +225,9 @@ function taabeer_import_pages() {
 
 	$ids = array();
 	foreach ( $pages as $slug => $page ) {
-		$existing = get_page_by_path( $slug, OBJECT, 'page' );
+		$parent = is_string( $page[2] ) && isset( $ids[ $page[2] ] ) ? $ids[ $page[2] ] : absint( $page[2] );
+		$path = $parent ? get_page_uri($parent).'/'.$slug : $slug;
+		$existing = get_page_by_path( $path, OBJECT, 'page' );
 		if ( $existing ) {
 			$ids[ $slug ] = $existing->ID;
 			continue;

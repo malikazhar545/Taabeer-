@@ -167,12 +167,15 @@ class Taabeer_Elementor_Story_Grid_Widget extends Taabeer_Elementor_Widget_Base 
 		$this->start_controls_section( 'content', array( 'label' => __( 'Journal', 'taabeer' ) ) );
 		$this->add_control( 'title', array( 'label' => __( 'Heading', 'taabeer' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => __( 'Behind the pieces', 'taabeer' ) ) );
 		$this->add_control( 'count', array( 'label' => __( 'Number of stories', 'taabeer' ), 'type' => \Elementor\Controls_Manager::NUMBER, 'default' => 3, 'min' => 1, 'max' => 9 ) );
+		$this->add_control( 'eyebrow', array( 'label'=>'Eyebrow', 'type'=>\Elementor\Controls_Manager::TEXT, 'default'=>'Journal' ) );
+		$this->add_control( 'empty_message', array( 'label'=>'Empty-state message', 'type'=>\Elementor\Controls_Manager::TEXTAREA, 'default'=>'Our first stories are coming soon.' ) );
+		$this->add_control( 'empty_image', array( 'label'=>'Empty-state image', 'type'=>\Elementor\Controls_Manager::MEDIA, 'default'=>array('url'=>taabeer_demo_image_url('story-textile.webp')) ) );
 		$this->end_controls_section();
 	}
 	protected function render() {
 		$s = $this->get_settings_for_display();
 		$q = new WP_Query( array( 'post_type' => 'heritage_story', 'post_status' => 'publish', 'posts_per_page' => absint( $s['count'] ) ) );
-		?><section class="journal-preview section shell"><div class="section-heading"><div><p class="eyebrow"><?php esc_html_e( 'Journal', 'taabeer' ); ?></p><h2><?php echo esc_html( $s['title'] ); ?></h2></div></div><?php if ( $q->have_posts() ) : ?><div class="story-grid"><?php while ( $q->have_posts() ) : $q->the_post(); get_template_part( 'template-parts/story', 'card' ); endwhile; ?></div><?php else : ?><div class="journal-preview__coming-soon"><p><?php esc_html_e( 'Our first stories are coming soon.', 'taabeer' ); ?></p></div><?php endif; wp_reset_postdata(); ?></section><?php
+		?><section class="journal-preview section shell"><div class="section-heading"><div><p class="eyebrow"><?php echo esc_html( $s['eyebrow'] ); ?></p><h2><?php echo esc_html( $s['title'] ); ?></h2></div></div><?php if ( $q->have_posts() ) : ?><div class="story-grid"><?php while ( $q->have_posts() ) : $q->the_post(); get_template_part( 'template-parts/story', 'card' ); endwhile; ?></div><?php else : ?><div class="journal-preview__coming-soon"><p><?php echo esc_html( $s['empty_message'] ); ?></p><img class="tb-journal-empty-image" src="<?php echo esc_url($s['empty_image']['url']); ?>" alt="" loading="lazy"></div><?php endif; wp_reset_postdata(); ?></section><?php
 	}
 }
 
@@ -180,6 +183,14 @@ class Taabeer_Elementor_Contact_Widget extends Taabeer_Elementor_Widget_Base {
 	public function get_name() { return 'taabeer-contact'; }
 	public function get_title() { return __( 'TAABEER Contact Form', 'taabeer' ); }
 	public function get_icon() { return 'eicon-form-horizontal'; }
-	protected function register_controls() {}
-	protected function render() { echo do_shortcode( '[taabeer_contact_form]' ); }
+	protected function register_controls() {
+		$this->start_controls_section( 'content', array( 'label' => 'Form labels and messages' ) );
+		$this->add_control('recipient_email', array('label'=>'Receive enquiries at', 'type'=>'text', 'input_type'=>'email', 'description'=>'Enter your real inbox. Leave blank to use the website contact email or WordPress administrator email.'));
+		foreach(array('consent_label'=>'I agree that TAABEER may use my details to respond to this enquiry.', 'privacy_label'=>'Privacy Policy', 'error_message'=>'Please review the form and try again. All fields are required and the email address must be valid.', 'limited_message'=>'Please wait a few minutes before sending another message.') as $key=>$value) {$this->add_control($key,array('label'=>ucwords(str_replace('_',' ',$key)),'type'=>'textarea','default'=>$value));}
+		foreach ( array( 'name_label'=>'Name', 'email_label'=>'Email', 'enquiry_label'=>'Enquiry type', 'message_label'=>'Message', 'submit_label'=>'Send message', 'success_message'=>'Thank you for contacting TAABEER. Your message has been received.', 'general_label'=>'General enquiry', 'collection_label'=>'Collection enquiry', 'partnership_label'=>'Partnership enquiry', 'press_label'=>'Press enquiry' ) as $key=>$value ) {
+			$this->add_control( $key, array( 'label'=>ucwords(str_replace('_',' ',$key)), 'type'=>\Elementor\Controls_Manager::TEXT, 'default'=>$value ) );
+		}
+		$this->end_controls_section();
+	}
+	protected function render() { echo taabeer_contact_form_shortcode( $this->get_settings_for_display() ); }
 }

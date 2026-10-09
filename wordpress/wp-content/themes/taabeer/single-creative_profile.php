@@ -5,6 +5,7 @@
  * @package Taabeer
  */
 get_header();
+if(get_option('taabeer_visual_foundation')) { echo '<main id="main-content" class="page-main">'; if(taabeer_visual_template('profile')) {echo '</main>';get_footer();return;} echo '</main>'; }
 while ( have_posts() ) : the_post();
 ?>
 <main id="main-content" class="profile-single">

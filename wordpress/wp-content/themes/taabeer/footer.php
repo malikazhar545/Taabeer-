@@ -7,7 +7,9 @@
 $public_email = get_theme_mod( 'taabeer_public_email', '' );
 $address      = get_theme_mod( 'taabeer_address', '' );
 ?>
-<?php if ( function_exists( 'taabeer_render_elementor_layout' ) && taabeer_render_elementor_layout( 'footer' ) ) : ?>
+<?php if ( function_exists( 'hfe_footer_enabled' ) && hfe_footer_enabled() ) : ?>
+	<?php hfe_render_footer(); ?>
+<?php elseif ( function_exists( 'taabeer_render_elementor_layout' ) && taabeer_render_elementor_layout( 'footer' ) ) : ?>
 <?php else : ?>
 <footer class="site-footer">
 	<div class="site-footer__lead">
@@ -57,6 +59,7 @@ $address      = get_theme_mod( 'taabeer_address', '' );
 </footer>
 <?php endif; ?>
 
+<?php if ( ! get_option( 'taabeer_visual_foundation' ) ) : ?>
 <div class="cookie-banner" role="dialog" aria-modal="false" aria-labelledby="cookie-title" hidden data-cookie-banner>
 	<div>
 		<h2 id="cookie-title"><?php esc_html_e( 'Your privacy choices', 'taabeer' ); ?></h2>
@@ -68,6 +71,7 @@ $address      = get_theme_mod( 'taabeer_address', '' );
 	</div>
 </div>
 
+<?php endif; ?>
 <?php wp_footer(); ?>
 </body>
 </html>

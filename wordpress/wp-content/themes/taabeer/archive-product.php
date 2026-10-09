@@ -8,6 +8,12 @@
 defined( 'ABSPATH' ) || exit;
 
 get_header();
+if ( function_exists( 'taabeer_visual_template' ) && get_option( 'taabeer_visual_foundation' ) ) {
+	echo '<main id="main-content" class="page-main">';
+	if ( taabeer_visual_template( 'shop' ) ) { echo '</main>'; get_footer(); return; }
+	echo '</main>';
+}
+
 ?>
 <main id="main-content" class="woocommerce-main shell section">
 	<header class="woocommerce-archive-header">

@@ -91,4 +91,12 @@ function taabeer_robots_noindex_unapproved( $robots ) {
 	return $robots;
 }
 add_filter( 'wp_robots', 'taabeer_robots_noindex_unapproved' );
+add_filter('wpseo_robots_array',function($robots){if(is_singular() && '1'===get_post_meta(get_queried_object_id(),'_taabeer_unapproved',true)){$robots['index']='noindex';}return $robots;});
+add_filter('wpseo_metadesc',function($description){
+	if($description){return $description;}
+	if(is_post_type_archive('heritage_story')){return 'Explore the TAABEER journal: Pakistani design, materials, creative voices and the heritage stories behind our considered collections.';}
+	if(is_post_type_archive('creative_profile')){return 'Meet the creative voices behind Pakistani design. Explore the artists, designers and makers whose ideas inform the TAABEER selection.';}
+	if(is_tax()){$term=get_queried_object();$copy=wp_strip_all_tags(term_description());return $copy?:sprintf('Explore %s through the TAABEER selection, with stories, materials and contemporary perspectives on Pakistani craft and design.',$term->name);}
+	return $description;
+});
 

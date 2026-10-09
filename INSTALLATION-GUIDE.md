@@ -1,3 +1,5 @@
+> For the current 1.1.0 Elementor migration, required plugins and editing instructions, see [ELEMENTOR-HANDOVER.md](ELEMENTOR-HANDOVER.md). The instructions below describe the original installation.
+
 # TAABEER installation and handover
 
 ## Install the theme

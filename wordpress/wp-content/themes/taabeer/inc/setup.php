@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function taabeer_setup() {
 	load_theme_textdomain( 'taabeer', TAABEER_DIR . '/languages' );
 	add_theme_support( 'title-tag' );
+	add_theme_support( 'header-footer-elementor' );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'responsive-embeds' );
@@ -53,6 +54,7 @@ function taabeer_assets() {
 	if ( is_page( 'discover-pakistan' ) ) {
 		wp_enqueue_style( 'taabeer-discover-page', TAABEER_URI . '/assets/css/discover.css', array( 'taabeer-style' ), TAABEER_VERSION );
 	}
+	wp_enqueue_style( 'taabeer-visual-editor', TAABEER_URI . '/assets/css/visual-editor.css', array( 'taabeer-style' ), TAABEER_VERSION );
 	wp_enqueue_script( 'taabeer-site', TAABEER_URI . '/assets/js/taabeer.js', array(), TAABEER_VERSION, true );
 	wp_localize_script(
 		'taabeer-site',

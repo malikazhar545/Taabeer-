@@ -1,6 +1,12 @@
 <?php
 /** Search results. @package Taabeer */
 get_header();
+if ( function_exists( 'taabeer_visual_template' ) && get_option( 'taabeer_visual_foundation' ) ) {
+	echo '<main id="main-content" class="page-main">';
+	if ( taabeer_visual_template( 'search' ) ) { echo '</main>'; get_footer(); return; }
+	echo '</main>';
+}
+
 ?>
 <main id="main-content" class="page-main">
 	<header class="page-hero shell"><p class="eyebrow"><?php esc_html_e( 'Search', 'taabeer' ); ?></p><h1><?php printf( esc_html__( 'Results for “%s”', 'taabeer' ), esc_html( get_search_query() ) ); ?></h1></header>

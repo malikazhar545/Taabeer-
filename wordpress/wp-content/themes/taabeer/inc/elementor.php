@@ -42,6 +42,11 @@ function taabeer_register_elementor_widgets( $widgets_manager ) {
 	$widgets_manager->register( new \Taabeer_Elementor_Split_Feature_Widget() );
 	$widgets_manager->register( new \Taabeer_Elementor_Story_Grid_Widget() );
 	$widgets_manager->register( new \Taabeer_Elementor_Contact_Widget() );
+	require_once TAABEER_DIR . '/inc/visual-widgets.php';
+	$widgets_manager->register( new \Taabeer_Visual_Navigation() );
+	$widgets_manager->register( new \Taabeer_Visual_Utility() );
+	$widgets_manager->register( new \Taabeer_Visual_Dynamic() );
+	$widgets_manager->register( new \Taabeer_Visual_Cookies() );
 }
 add_action( 'elementor/widgets/register', 'taabeer_register_elementor_widgets' );
 
@@ -73,7 +78,7 @@ function taabeer_render_elementor_layout( $location ) {
 
 function taabeer_elementor_cpt_support() {
 	$supported = get_option( 'elementor_cpt_support', array( 'post', 'page' ) );
-	$supported = array_unique( array_merge( (array) $supported, array( 'post', 'page', 'heritage_story', 'creative_profile', 'taabeer_layout', 'product' ) ) );
+	$supported = array_unique( array_merge( (array) $supported, array( 'post', 'page', 'heritage_story', 'creative_profile', 'taabeer_layout', 'product', 'elementor-hf' ) ) );
 	update_option( 'elementor_cpt_support', $supported );
 }
 add_action( 'after_switch_theme', 'taabeer_elementor_cpt_support' );

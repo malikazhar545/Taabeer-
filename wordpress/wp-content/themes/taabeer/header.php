@@ -15,7 +15,9 @@
 <?php wp_body_open(); ?>
 <a class="screen-reader-text skip-link" href="#main-content"><?php esc_html_e( 'Skip to content', 'taabeer' ); ?></a>
 
-<?php if ( function_exists( 'taabeer_render_elementor_layout' ) && taabeer_render_elementor_layout( 'header' ) ) : ?>
+<?php if ( function_exists( 'hfe_header_enabled' ) && hfe_header_enabled() ) : ?>
+	<?php hfe_render_header(); ?>
+<?php elseif ( function_exists( 'taabeer_render_elementor_layout' ) && taabeer_render_elementor_layout( 'header' ) ) : ?>
 <?php else : ?>
 <div class="taabeer-announcement" role="note">
 	<span><?php esc_html_e( 'A London-based curated house of Pakistani design', 'taabeer' ); ?></span>

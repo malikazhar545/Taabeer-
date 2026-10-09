@@ -3,9 +3,9 @@
   --taabeer-shell: min(1280px, calc(100% - 96px));
   --taabeer-section: clamp(64px, 7vw, 104px);
 }
-.home #main-content h2 { color: var(--taabeer-green-deep); font-size: clamp(2.2rem, 3.9vw, 3.9rem); line-height: 1.08; text-wrap: balance; }
-.home #main-content h3 { color: var(--taabeer-green-deep); }
-.home #main-content .section--green h2 { color: var(--taabeer-ivory); }
+.home :where(#main-content) h2 { color: var(--taabeer-green-deep); font-size: clamp(2.2rem, 3.9vw, 3.9rem); line-height: 1.08; text-wrap: balance; }
+.home :where(#main-content) h3 { color: var(--taabeer-green-deep); }
+.home :where(#main-content) .section--green h2 { color: var(--taabeer-ivory); }
 .home .eyebrow { font-size: .64rem; letter-spacing: .19em; }
 .home .button { line-height: 1.35; min-height: 48px; }
 .home .text-link { min-height: 44px; }
@@ -71,17 +71,17 @@
 .home .journal-preview__coming-soon > p { width: 45%; max-width: 24ch; margin: 0 0 20px; font-size: clamp(1.75rem, 2.9vw, 2.8rem); line-height: 1.2; color: var(--taabeer-green-deep); }
 .home .journal-preview__coming-soon > .eyebrow { font-family: var(--taabeer-sans); font-size: .64rem; line-height: 1.5; margin: 0; }
 .home .story-card:nth-child(2) { margin-top: 32px; }
-.home .story-card__content h2 { font-size: clamp(1.7rem, 2.5vw, 2.4rem) !important; }
+.home .story-card__content h2 { font-size: clamp(1.7rem, 2.5vw, 2.4rem); }
 .home .newsletter-section { background: var(--taabeer-ivory-dark); border-top: 1px solid var(--taabeer-line); border-bottom: 1px solid var(--taabeer-line); padding-block: 56px; }
 .home .newsletter-section__inner { grid-template-columns: 1.3fr .7fr; gap: 80px; align-items: center; }
-.home .newsletter-section__inner h2 { max-width: 24ch; font-size: clamp(1.8rem, 2.8vw, 2.8rem) !important; }
+.home .newsletter-section__inner h2 { max-width: 24ch; font-size: clamp(1.8rem, 2.8vw, 2.8rem); }
 .home .newsletter-section__inner > p { margin: 0; font-size: .94rem; line-height: 1.8; }
 /* A horizontal invitation with material photography replaces the narrow centred CTA. */
 .home .partnership-cta { position: relative; display: grid; grid-template-columns: 44% minmax(0, 1fr); gap: 0 8%; max-width: 1280px; text-align: left; margin-block: 96px 0; padding-block: 0; min-height: 430px; align-content: center; }
 .home .partnership-cta::before { content: ""; display: block; position: absolute; inset: 0 56% 0 0; background: url('../images/demo/story-studio.webp') center / cover no-repeat; }
 .home .partnership-cta > * { grid-column: 2; }
 .home .partnership-cta > .eyebrow { margin: 0 0 22px; }
-.home .partnership-cta h2 { max-width: 18ch; margin: 0 0 22px; font-size: clamp(2.25rem, 3.8vw, 3.7rem) !important; }
+.home .partnership-cta h2 { max-width: 18ch; margin: 0 0 22px; font-size: clamp(2.25rem, 3.8vw, 3.7rem); }
 .home .partnership-cta > p:not(.eyebrow) { margin: 0 0 24px; max-width: 47ch; font-size: .96rem; line-height: 1.8; }
 .home .partnership-cta > p:last-child { margin-bottom: 0; }
 .home .partnership-cta > .button { justify-self: start; }
@@ -114,7 +114,7 @@
 }
 @media (max-width: 782px) {
   .home { --taabeer-shell: calc(100% - 40px); --taabeer-section: 64px; }
-  .home #main-content h2 { font-size: clamp(2rem, 7.7vw, 3rem); }
+  .home :where(#main-content) h2 { font-size: clamp(2rem, 7.7vw, 3rem); }
   .home .site-header__inner { column-gap: 8px; }
   .home .home-hero,
   .home.admin-bar .home-hero { min-height: 620px; align-items: end; }
@@ -158,10 +158,10 @@
   .home .journal-preview__coming-soon > .eyebrow { font-size: .62rem; }
   .home .newsletter-section { padding-block: 38px; }
   .home .newsletter-section__inner { grid-template-columns: 1fr; gap: 22px; }
-  .home .newsletter-section__inner h2 { font-size: 1.9rem !important; max-width: 23ch; }
+  .home .newsletter-section__inner h2 { font-size: 1.9rem; max-width: 23ch; }
   .home .partnership-cta { display: flex; flex-direction: column; align-items: flex-start; min-height: 0; gap: 0; margin-top: 64px; }
   .home .partnership-cta::before { position: relative; inset: auto; width: 100%; height: 270px; margin-bottom: 32px; }
-  .home .partnership-cta h2 { font-size: 2.25rem !important; max-width: 20ch; }
+  .home .partnership-cta h2 { font-size: 2.25rem; max-width: 20ch; }
   .home .partnership-cta > .eyebrow { margin-bottom: 16px; }
   .home .site-footer { margin-top: 64px; }
   .home .site-footer__lead { padding-block: 42px 32px; grid-template-columns: 1fr; gap: 22px; }

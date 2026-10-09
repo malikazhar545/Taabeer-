@@ -1,6 +1,12 @@
 <?php
 /** 404 page. @package Taabeer */
 get_header();
+if ( function_exists( 'taabeer_visual_template' ) && get_option( 'taabeer_visual_foundation' ) ) {
+	echo '<main id="main-content" class="page-main">';
+	if ( taabeer_visual_template( '404' ) ) { echo '</main>'; get_footer(); return; }
+	echo '</main>';
+}
+
 ?>
 <main id="main-content" class="error-page section shell">
 	<p class="eyebrow">404</p>

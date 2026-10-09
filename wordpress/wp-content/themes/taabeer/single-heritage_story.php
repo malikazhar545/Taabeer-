@@ -5,6 +5,7 @@
  * @package Taabeer
  */
 get_header();
+if ( taabeer_is_built_with_elementor( get_queried_object_id() ) ) { echo '<main id="main-content" class="page-main">'; while ( have_posts() ) { the_post(); the_content(); } echo '</main>'; get_footer(); return; }
 while ( have_posts() ) : the_post();
 ?>
 <main id="main-content" class="story-single">

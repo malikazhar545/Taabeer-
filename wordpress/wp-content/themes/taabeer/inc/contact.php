@@ -9,14 +9,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-function taabeer_contact_form_shortcode() {
+function taabeer_contact_form_shortcode( $atts = array() ) {
+	$extra = shortcode_atts(array('recipient_email'=>'','consent_label'=>'I agree that TAABEER may use my details to respond to this enquiry.','privacy_label'=>'Privacy Policy','error_message'=>'Please review the form and try again. All fields are required and the email address must be valid.','limited_message'=>'Please wait a few minutes before sending another message.'),(array)$atts);
+	$labels = shortcode_atts( array( 'name_label'=>'Name', 'email_label'=>'Email', 'enquiry_label'=>'Enquiry type', 'message_label'=>'Message', 'submit_label'=>'Send message', 'success_message'=>'Thank you for contacting TAABEER. Your message has been received.', 'general_label'=>'General enquiry', 'collection_label'=>'Collection enquiry', 'partnership_label'=>'Partnership enquiry', 'press_label'=>'Press enquiry' ), (array) $atts );
 	$status       = isset( $_GET['contact_status'] ) ? sanitize_key( wp_unslash( $_GET['contact_status'] ) ) : '';
 	$enquiry      = isset( $_GET['enquiry'] ) ? sanitize_key( wp_unslash( $_GET['enquiry'] ) ) : '';
 	$enquiry_map  = array(
-		'general'     => __( 'General enquiry', 'taabeer' ),
-		'collection'  => __( 'Collection enquiry', 'taabeer' ),
-		'partnership' => __( 'Partnership enquiry', 'taabeer' ),
-		'press'       => __( 'Press enquiry', 'taabeer' ),
+		'general'     => $labels['general_label'],
+		'collection'  => $labels['collection_label'],
+		'partnership' => $labels['partnership_label'],
+		'press'       => $labels['press_label'],
 	);
 	if ( ! isset( $enquiry_map[ $enquiry ] ) ) {
 		$enquiry = 'general';
@@ -26,30 +28,33 @@ function taabeer_contact_form_shortcode() {
 	?>
 	<div class="contact-form-wrap">
 		<?php if ( 'success' === $status ) : ?>
-			<div class="form-status form-status--success" role="status" tabindex="-1" data-form-status><?php esc_html_e( 'Thank you for contacting TAABEER. Your message has been received.', 'taabeer' ); ?></div>
+			<div class="form-status form-status--success" role="status" tabindex="-1" data-form-status><?php echo esc_html( $labels['success_message'] ); ?></div>
 		<?php elseif ( 'error' === $status ) : ?>
-			<div class="form-status form-status--error" role="alert" tabindex="-1" data-form-status><?php esc_html_e( 'Please review the form and try again. All fields are required and the email address must be valid.', 'taabeer' ); ?></div>
+			<div class="form-status form-status--error" role="alert" tabindex="-1" data-form-status><?php echo esc_html($extra['error_message']); ?></div>
 		<?php elseif ( 'limited' === $status ) : ?>
-			<div class="form-status form-status--error" role="alert" tabindex="-1" data-form-status><?php esc_html_e( 'Please wait a few minutes before sending another message.', 'taabeer' ); ?></div>
+			<div class="form-status form-status--error" role="alert" tabindex="-1" data-form-status><?php echo esc_html($extra['limited_message']); ?></div>
 		<?php endif; ?>
 
 		<form class="contact-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
 			<input type="hidden" name="action" value="taabeer_contact">
 			<?php wp_nonce_field( 'taabeer_contact_submit', 'taabeer_contact_nonce' ); ?>
+			<?php $recipient=sanitize_email($extra['recipient_email']); if(is_email($recipient)): ?>
+			<input type="hidden" name="recipient" value="<?php echo esc_attr($recipient); ?>"><input type="hidden" name="recipient_signature" value="<?php echo esc_attr(hash_hmac('sha256',$recipient,wp_salt('auth'))); ?>">
+			<?php endif; ?>
 			<div class="contact-form__honeypot" aria-hidden="true">
 				<label for="taabeer_website"><?php esc_html_e( 'Website', 'taabeer' ); ?></label>
 				<input id="taabeer_website" name="website" type="text" tabindex="-1" autocomplete="off">
 			</div>
 			<div class="form-field">
-				<label for="taabeer_name"><?php esc_html_e( 'Name', 'taabeer' ); ?></label>
+				<label for="taabeer_name"><?php echo esc_html( $labels['name_label'] ); ?></label>
 				<input id="taabeer_name" name="name" type="text" autocomplete="name" required>
 			</div>
 			<div class="form-field">
-				<label for="taabeer_email"><?php esc_html_e( 'Email', 'taabeer' ); ?></label>
+				<label for="taabeer_email"><?php echo esc_html( $labels['email_label'] ); ?></label>
 				<input id="taabeer_email" name="email" type="email" autocomplete="email" required>
 			</div>
 			<div class="form-field">
-				<label for="taabeer_enquiry_type"><?php esc_html_e( 'Enquiry type', 'taabeer' ); ?></label>
+				<label for="taabeer_enquiry_type"><?php echo esc_html( $labels['enquiry_label'] ); ?></label>
 				<select id="taabeer_enquiry_type" name="enquiry_type" required>
 					<?php foreach ( $enquiry_map as $value => $label ) : ?>
 						<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $enquiry, $value ); ?>><?php echo esc_html( $label ); ?></option>
@@ -57,13 +62,13 @@ function taabeer_contact_form_shortcode() {
 				</select>
 			</div>
 			<div class="form-field form-field--full">
-				<label for="taabeer_message"><?php esc_html_e( 'Message', 'taabeer' ); ?></label>
+				<label for="taabeer_message"><?php echo esc_html( $labels['message_label'] ); ?></label>
 				<textarea id="taabeer_message" name="message" rows="7" required></textarea>
 			</div>
 			<div class="form-field form-field--full">
-				<label class="form-consent"><input type="checkbox" name="privacy_agree" value="1" required> <span><?php printf( wp_kses_post( __( 'I agree that TAABEER may use my details to respond to this enquiry. Read the <a href="%s">Privacy Policy</a>.', 'taabeer' ) ), esc_url( get_privacy_policy_url() ?: home_url( '/privacy-policy/' ) ) ); ?></span></label>
+				<label class="form-consent"><input type="checkbox" name="privacy_agree" value="1" required> <span><?php echo esc_html($extra['consent_label']); ?> <a href="<?php echo esc_url(get_privacy_policy_url() ?: home_url('/privacy-policy/')); ?>"><?php echo esc_html($extra['privacy_label']); ?></a></span></label>
 			</div>
-			<button class="button" type="submit"><?php esc_html_e( 'Send message', 'taabeer' ); ?></button>
+			<button class="button" type="submit"><?php echo esc_html( $labels['submit_label'] ); ?></button>
 		</form>
 	</div>
 	<?php
@@ -102,6 +107,9 @@ function taabeer_handle_contact_form() {
 	}
 
 	$recipient = get_theme_mod( 'taabeer_public_email', get_option( 'admin_email' ) );
+	$custom_recipient=isset($_POST['recipient'])?sanitize_email(wp_unslash($_POST['recipient'])):'';
+	$signature=isset($_POST['recipient_signature'])?sanitize_text_field(wp_unslash($_POST['recipient_signature'])):'';
+	if(is_email($custom_recipient) && hash_equals(hash_hmac('sha256',$custom_recipient,wp_salt('auth')),$signature)) {$recipient=$custom_recipient;}
 	$subject   = sprintf( '[TAABEER] %s enquiry from %s', ucfirst( $type ), $name );
 	$body      = "Name: {$name}\nEmail: {$email}\nEnquiry: {$type}\n\n{$message}";
 	$headers   = array( 'Reply-To: ' . $name . ' <' . $email . '>' );
