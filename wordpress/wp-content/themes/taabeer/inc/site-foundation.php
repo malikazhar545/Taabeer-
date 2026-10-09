@@ -81,11 +81,25 @@ function taabeer_visual_backup_setup() {
 	}
 }
 function taabeer_visual_design_system() {
-	$id=(int)get_option('elementor_active_kit');if(!$id){return;}
+	$id=taabeer_ensure_elementor_kit();if(!$id){return;}
 	$settings=get_post_meta($id,'_elementor_page_settings',true);$settings=is_array($settings)?$settings:array();
-	if(empty($settings['system_colors'])) {$settings['system_colors']=array(array('_id'=>'primary','title'=>'Primary','color'=>'#173F35'),array('_id'=>'secondary','title'=>'Secondary','color'=>'#0D2C25'),array('_id'=>'text','title'=>'Text','color'=>'#252722'),array('_id'=>'accent','title'=>'Accent','color'=>'#173F35'));}
-	if(empty($settings['system_typography'])) {$settings['system_typography']=array();foreach(array('primary'=>array('Baskerville','400'),'secondary'=>array('Baskerville','400'),'text'=>array('Helvetica','400'),'accent'=>array('Helvetica','600')) as $key=>$font){$settings['system_typography'][]=array('_id'=>$key,'title'=>ucfirst($key),'typography_typography'=>'custom','typography_font_family'=>$font[0],'typography_font_weight'=>$font[1]);}}
-	update_post_meta($id,'_elementor_page_settings',$settings);delete_post_meta($id,'_elementor_css');
+	if(get_post_meta($id,'_taabeer_kit_needs_brand_defaults',true) || empty($settings['system_colors'])) {$settings['system_colors']=array(array('_id'=>'primary','title'=>'Primary','color'=>'#173F35'),array('_id'=>'secondary','title'=>'Secondary','color'=>'#0D2C25'),array('_id'=>'text','title'=>'Text','color'=>'#252722'),array('_id'=>'accent','title'=>'Accent','color'=>'#173F35'));}
+	if(get_post_meta($id,'_taabeer_kit_needs_brand_defaults',true) || empty($settings['system_typography'])) {$settings['system_typography']=array();foreach(array('primary'=>array('Baskerville','400'),'secondary'=>array('Baskerville','400'),'text'=>array('Helvetica','400'),'accent'=>array('Helvetica','600')) as $key=>$font){$settings['system_typography'][]=array('_id'=>$key,'title'=>ucfirst($key),'typography_typography'=>'custom','typography_font_family'=>$font[0],'typography_font_weight'=>$font[1]);}}
+	update_post_meta($id,'_elementor_page_settings',$settings);delete_post_meta($id,'_elementor_css');delete_post_meta($id,'_taabeer_kit_needs_brand_defaults');
+}
+/** Use Elementor's own document API, leaving vendor code and existing valid kits untouched. */
+function taabeer_ensure_elementor_kit() {
+	if(!did_action('elementor/init') || !isset(\Elementor\Plugin::instance()->kits_manager)){return 0;}
+	$manager=\Elementor\Plugin::instance()->kits_manager;
+	$id=(int)get_option('elementor_active_kit');
+	if($id && $manager->is_kit($id) && 'trash'!==get_post_status($id)){return $id;}
+	$available=get_posts(array('post_type'=>'elementor_library','post_status'=>'publish','posts_per_page'=>1,'meta_key'=>'_elementor_template_type','meta_value'=>'kit'));
+	$id=$available?(int)$available[0]->ID:$manager->create_default();
+	if(!$id || is_wp_error($id)){return 0;}
+	if(!$available){update_post_meta($id,'_taabeer_kit_needs_brand_defaults',1);}
+	update_option('elementor_active_kit',$id);
+	\Elementor\Plugin::instance()->files_manager->clear_cache();
+	return $id;
 }
 function taabeer_visual_redesign_page($post,$tree) {
 	$slug=$post->post_name;$html=taabeer_visual_editor_html($tree);

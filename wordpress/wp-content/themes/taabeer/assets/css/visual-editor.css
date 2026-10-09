@@ -218,3 +218,29 @@
 
 .tb-contact-detail.elementor-widget.elementor-widget-icon-box .elementor-icon-box-wrapper {display:flex;flex-direction:row;text-align:left;gap:20px;}
 .tb-contact-detail.elementor-widget.elementor-widget-icon-box .elementor-icon-box-icon {margin:0;flex:0 0 24px;}
+
+/* Regional notebooks and Discover subpages use native Elementor elements. */
+.e-con.tb-notebook-heading {display:flex;flex-direction:column;gap:22px;padding-block:68px 52px;max-width:1280px;}
+.tb-notebook-heading .elementor-widget-heading:has(h1) {max-width:19ch;font-size:clamp(3rem,5.2vw,5.1rem);}
+.tb-notebook-heading .tb-notebook-intro {max-width:74ch;font-size:1.08rem;line-height:1.9;}
+.e-con.tb-notebook-lead {display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:center;}
+.e-con.tb-notebook-photo > .elementor-widget-image {aspect-ratio:1.12;overflow:hidden;}
+.tb-notebook-photo img {width:100%;height:100%;object-fit:cover;}
+.tb-notebook-caption {font-size:.7rem;line-height:1.7;color:#666b62;padding-top:12px;}
+.e-con.tb-notebook-opening {display:flex;flex-direction:column;gap:32px;}
+.tb-notebook-opening > .elementor-widget-heading {font-size:clamp(2rem,3.4vw,3.4rem);}
+.e-con.tb-notebook-chapter {display:flex;flex-direction:column;gap:20px;line-height:1.95;}
+.tb-notebook-chapter > .elementor-widget-heading:has(h2) {font-size:1.8rem;line-height:1.2;}
+.e-con.tb-notebook-chapters {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;padding-block:64px;border-bottom:1px solid var(--taabeer-line);}
+.e-con.tb-notebook-next {display:flex;flex-direction:column;gap:22px;padding-top:50px;}
+.e-con.tb-region-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px 30px;}
+.e-con.tb-region-card {display:flex;flex-direction:column;gap:18px;}
+.tb-region-card > .elementor-widget-image {aspect-ratio:1.15;overflow:hidden;}
+.tb-region-card > .elementor-widget-heading:has(h2) {font-size:2.1rem;}
+.tb-region-card .tb-button {align-self:flex-start;}
+.home .partnership-cta .tb-button .elementor-button {background:#171b18;color:#fff;border-color:#171b18;}
+.home .partnership-cta .tb-button .elementor-button:hover {background:#252722;color:#fff;}
+.home .partnership-cta .tb-button .elementor-button-text {color:inherit;}
+.site-footer .site-footer__lead .eyebrow p {color:#d4be90;}
+@media(max-width:1024px){.e-con.tb-notebook-lead{gap:36px;}.e-con.tb-notebook-chapters{grid-template-columns:1fr 1fr;gap:32px;}.e-con.tb-region-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:767px){.e-con.tb-notebook-heading{padding-block:44px 32px;}.e-con.tb-notebook-lead,.e-con.tb-notebook-chapters,.e-con.tb-region-grid{grid-template-columns:1fr;gap:32px;}.e-con.tb-notebook-chapters{padding-block:40px;}.tb-notebook-heading .tb-notebook-intro{font-size:1rem;}.tb-region-card > .elementor-widget-heading:has(h2){font-size:1.9rem;}}

@@ -1,4 +1,4 @@
-# TAABEER 1.1.0 — editing and launch
+# TAABEER 1.1.1 — editing and launch
 
 This release uses Elementor Free. It does not need Elementor Pro and does not modify any official plugin files.
 
@@ -39,3 +39,13 @@ Before enabling purchases: replace all sample data; supply approved product imag
 Use **TAABEER → GitHub updates** to check and install a repository release. The existing updater remains compatible with its older Tools URL. Removing the updater stops repository checks; installed content and Elementor editing remain available.
 
 Official plugin updates retain database content and custom theme code. No code can guarantee compatibility with every future major release: take a backup, test important upgrades on staging, and check editor, forms and checkout afterwards. Keep the Taabeer theme active to retain its custom Elementor widgets.
+
+## 1.1.1 repairs and editorial pages
+
+The theme repairs a missing or invalid Elementor active-kit reference through Elementor's official kit API. It reuses an existing published kit when available and creates one only when necessary. Newly created kits receive the Taabeer palette; existing kit settings are preserved.
+
+Contemporary Pakistan, Pakistan in the Making, New Voices, and five regional notebooks use native Elementor containers, headings, text, images and buttons. Their one-time redesign stores the previous content, Elementor data and status under `_taabeer_before_editorial_1_1_1`; later admin visits do not reapply the migration. The imagery is identified as material studies, not documentary photographs of the regions. These are introductory editorial pages; verified maker profiles remain future content.
+
+The older `tools.php?page=taabeer-updates` link has an explicit screen title so PHP 8.3 does not receive a null admin title after the menu relocation. Official WordPress/plugin files remain unchanged. The homepage partnership button has a dark background and white label.
+
+The kit, content preservation, draft commerce and legacy updater title were checked locally. Live editor checks, responsive visual review of the new layouts, and actual Yoast analysis scores still require a connected browser; setting metadata alone does not prove a green analysis score.

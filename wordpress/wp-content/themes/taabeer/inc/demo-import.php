@@ -22,6 +22,13 @@ add_action('admin_menu',function(){
 	}
 },99);
 
+// Older updater links still use Tools after its menu has moved to TAABEER.
+// WordPress cannot infer that removed submenu's title before admin-header.php.
+function taabeer_legacy_updates_screen_title() {
+	$GLOBALS['title'] = __( 'TAABEER Updates', 'taabeer' );
+}
+add_action( 'load-tools_page_taabeer-updates', 'taabeer_legacy_updates_screen_title' );
+
 function taabeer_setup_screen() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
