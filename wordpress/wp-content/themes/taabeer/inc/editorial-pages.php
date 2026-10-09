@@ -79,3 +79,61 @@ function taabeer_migrate_editorial_pages_1_1_1() {
 	update_option('taabeer_editorial_pages_1_1_1',1);
 }
 add_action('admin_init',function(){if(current_user_can('manage_options') && version_compare(TAABEER_VERSION,'1.1.1','>=')){taabeer_migrate_editorial_pages_1_1_1();}},45);
+
+/** Keep the accent treatment in native Elementor Style controls, not an updater widget. */
+function taabeer_editorial_green_panel($node) {
+	$node['settings'] += array('background_background'=>'classic','background_color'=>'#173F35');
+	$lighten = function($children) use (&$lighten) {
+		foreach($children as &$child) {
+			$type=$child['widgetType']??'';
+			if('heading'===$type){$child['settings']+=array('title_color'=>'#F7F3EA');}
+			if('text-editor'===$type){$child['settings']+=array('text_color'=>'#F7F3EA');}
+			if('button'===$type){$child['settings']+=array('button_text_color'=>'#F7F3EA','background_color'=>'#173F35','hover_color'=>'#FFFFFF','button_background_hover_color'=>'#0D2C25','border_color'=>'#B8C9BF');}
+			if(!empty($child['elements'])){$child['elements']=$lighten($child['elements']);}
+		}
+		return $children;
+	};
+	$node['elements']=$lighten($node['elements']);
+	return $node;
+}
+
+function taabeer_editorial_green_tree($nodes) {
+	foreach($nodes as &$node) {
+		if(!empty($node['elements'])){$node['elements']=taabeer_editorial_green_tree($node['elements']);}
+		$classes=explode(' ',trim($node['settings']['css_classes']??''));
+		if(in_array('tb-notebook-opening',$classes,true) || in_array('tb-region-card',$classes,true)) {
+			$node=taabeer_editorial_green_panel($node);
+		}
+		if(in_array('tb-about-body',$classes,true)) {
+			foreach($node['elements'] as &$column) {
+				if(!in_array('tb-editorial-copy',explode(' ',$column['settings']['css_classes']??''),true)){continue;}
+				$children=$column['elements'];$last=array_key_last($children);
+				// Retain the original paragraph, its ID, inline formatting and client edits.
+				if(null!==$last && 'text-editor'===($children[$last]['widgetType']??'')) {
+					$note=taabeer_visual_container(array(taabeer_visual_heading('A considered connection','h2'),$children[$last]),'tb-brand-note');
+					$children[$last]=taabeer_editorial_green_panel($note);
+					$column['elements']=$children;
+				}
+			}
+			unset($column);
+		}
+	}
+	return $nodes;
+}
+
+function taabeer_migrate_editorial_green_1_1_2() {
+	if(get_option('taabeer_editorial_green_1_1_2') || !did_action('elementor/init')){return;}
+	$paths=array('about','discover-pakistan/regions');
+	foreach(array_keys(taabeer_editorial_page_definitions()) as $slug){$paths[]='discover-pakistan/'.$slug;}
+	foreach(array_keys(taabeer_region_definitions()) as $slug){$paths[]='discover-pakistan/regions/'.$slug;}
+	foreach($paths as $path) {
+		$post=get_page_by_path($path);if(!$post){continue;}
+		$raw=get_post_meta($post->ID,'_elementor_data',true);$tree=json_decode($raw,true);
+		if(!$tree){continue;}
+		add_post_meta($post->ID,'_taabeer_before_green_1_1_2',wp_slash($raw),true);
+		taabeer_visual_save($post->ID,taabeer_editorial_green_tree($tree));
+	}
+	\Elementor\Plugin::instance()->files_manager->clear_cache();
+	update_option('taabeer_editorial_green_1_1_2',1);
+}
+add_action('admin_init',function(){if(current_user_can('manage_options')){taabeer_migrate_editorial_green_1_1_2();}},46);

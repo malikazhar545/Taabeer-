@@ -244,3 +244,25 @@
 .site-footer .site-footer__lead .eyebrow p {color:#d4be90;}
 @media(max-width:1024px){.e-con.tb-notebook-lead{gap:36px;}.e-con.tb-notebook-chapters{grid-template-columns:1fr 1fr;gap:32px;}.e-con.tb-region-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:767px){.e-con.tb-notebook-heading{padding-block:44px 32px;}.e-con.tb-notebook-lead,.e-con.tb-notebook-chapters,.e-con.tb-region-grid{grid-template-columns:1fr;gap:32px;}.e-con.tb-notebook-chapters{padding-block:40px;}.tb-notebook-heading .tb-notebook-intro{font-size:1rem;}.tb-region-card > .elementor-widget-heading:has(h2){font-size:1.9rem;}}
+
+/* Consistent editorial accents; colours live in each element's native Style controls. */
+.e-con.tb-notebook-lead {gap:0;align-items:stretch;}
+.e-con.tb-notebook-photo {padding-right:32px;}
+.e-con.tb-notebook-opening {padding:clamp(28px,4vw,56px);justify-content:center;gap:28px;}
+.tb-notebook-opening > .elementor-widget-heading {font-size:clamp(2rem,3vw,3rem);text-wrap:balance;}
+.tb-notebook-opening .tb-notebook-chapter > .elementor-widget-heading {font-size:1.5rem;}
+.e-con.tb-notebook-chapters {border-bottom-color:#bec8bc;}
+.e-con.tb-notebook-chapters > .tb-notebook-chapter {border-top:2px solid var(--taabeer-green);padding-top:24px;}
+.e-con.tb-region-card {gap:18px;padding-bottom:28px;}
+.tb-region-card > .elementor-widget:not(.elementor-widget-image) {margin-inline:28px;width:calc(100% - 56px);}
+.tb-region-card > .elementor-widget-image {margin-bottom:8px;}
+.tb-region-card > .tb-button {margin-top:auto;}
+.e-con.tb-brand-note {display:flex;flex-direction:column;gap:18px;padding:32px;margin-top:8px;}
+.tb-brand-note > .elementor-widget-heading:has(h2) {font-size:1.9rem;line-height:1.2;text-wrap:balance;}
+.tb-brand-note > .elementor-widget-text-editor {font-size:.95rem;line-height:1.85;}
+@media(max-width:767px){
+ .e-con.tb-notebook-photo{padding-right:0;}
+ .e-con.tb-notebook-opening{padding:32px 24px;}
+ .tb-region-card > .elementor-widget:not(.elementor-widget-image){margin-inline:24px;width:calc(100% - 48px);}
+ .e-con.tb-brand-note{padding:28px 24px;}
+}

@@ -1,4 +1,4 @@
-# TAABEER 1.1.1 — editing and launch
+# TAABEER 1.1.2 — editing and launch
 
 This release uses Elementor Free. It does not need Elementor Pro and does not modify any official plugin files.
 
@@ -49,3 +49,9 @@ Contemporary Pakistan, Pakistan in the Making, New Voices, and five regional not
 The older `tools.php?page=taabeer-updates` link has an explicit screen title so PHP 8.3 does not receive a null admin title after the menu relocation. Official WordPress/plugin files remain unchanged. The homepage partnership button has a dark background and white label.
 
 The kit, content preservation, draft commerce and legacy updater title were checked locally. Live editor checks, responsive visual review of the new layouts, and actual Yoast analysis scores still require a connected browser; setting metadata alone does not prove a green analysis score.
+
+## 1.1.2 consistent green accents
+
+The five regional notebooks and three Discover subpages use a green introduction panel beside the lead image. The regional overview uses matching green card captions, and About has a smaller green connection panel. Colours are stored in native Elementor container Background, Heading Text Colour, Text Editor Text Colour and Button controls. The shared stylesheet supplies responsive spacing.
+
+The one-time styling migration preserves existing paragraphs, image references, links and element IDs. It keeps a recovery copy in `_taabeer_before_green_1_1_2` and does not reapply on later admin visits. Existing explicit style values are retained where present. All ten affected routes were checked locally for successful rendering, one H1, native Elementor green/ivory CSS and PHP warnings. The intended ivory-on-green combination has a 10.54:1 contrast ratio. Browser-based visual verification and live deployment remain pending while browser control is unavailable.
