@@ -1,57 +1,66 @@
-# TAABEER 1.1.2 — editing and launch
+# TAABEER 1.2.0 - editing and handover
 
-This release uses Elementor Free. It does not need Elementor Pro and does not modify any official plugin files.
+Release prepared on 13 October 2026. This theme uses Elementor Free and does not modify WordPress or official plugin source files.
 
-## Where to edit
+## Editing pages and shared layouts
 
-Open **TAABEER → Setup & editing** in the main WordPress sidebar. Each page and reusable template has an **Edit with Elementor** link. Text, images, headings, links, spacing and colours are editable. Native Elementor controls are used wherever possible; TAABEER widgets provide functional navigation, contact forms and dynamic WordPress/WooCommerce content.
+Use **Pages > Edit with Elementor** for brand, regional and legal pages. **TAABEER > Setup & editing** provides shortcuts to pages and archive templates. These shortcuts open the normal Elementor editor; they are not a replacement editor.
 
-**TAABEER → Header & footer** contains the single site-wide header and footer. Change navigation links in the header's TAABEER Navigation widget. Change footer text and links in its native Elementor widgets. Do not edit the older recovery layouts named “TAABEER Header” and “TAABEER Footer”.
+The shared header and footer are official Header Footer Builder records. Open **TAABEER > Header & footer** and edit the records named **TAABEER - Site-wide Header/Footer**. One shared pair serves the entire website. Older recovery layouts are not the active shared pair.
 
-In **Contact → Edit with Elementor**, select the form and enter the real inbox under **Receive enquiries at**. A blank value uses the website contact email or WordPress administrator email. Labels, enquiry options, consent copy and response messages are editable. The address, phone and email on the left are separate Elementor Icon Box widgets. The phone and email are visibly marked placeholders; replace them before client handover. Test delivery through the hosting mail service; SMTP credentials may be needed if the host cannot deliver WordPress mail.
+Headings, paragraphs, images, buttons and many containers use native Elementor widgets. Hero, collection grids, navigation, forms and dynamic content also use custom TAABEER widgets supplied by the theme. The website is **not entirely stock Elementor widgets**. Keep the Taabeer theme, Elementor and Header Footer Builder active. Removing only the GitHub updater does not remove content, subscriber records or these editing controls. Switching away from the theme removes its styling, custom widgets and newsletter workflow.
 
-Use **Elementor → Site Settings** for global colours and typography. The editor and frontend load the same theme styling. Explicit Elementor settings override defaults. Routine text edits do not reset saved styles. Check desktop, tablet and mobile previews before publishing.
+Edit native text and image controls normally. Use **Elementor > Site Settings** for global colours and typography. Explicit element settings take precedence over theme defaults. Text edits retain stored colours. For responsive changes, select Elementor's desktop/tablet/mobile preview and use the device control beside typography, spacing or size. Native container padding, margins, width and minimum height now also override the editorial defaults. Custom TAABEER widgets provide responsive Style controls for section padding, typography and relevant grid/form/hero settings. Some editorial layout defaults remain in the theme stylesheet.
 
-## Plugin foundation
+The theme repairs a missing or unpublished default kit using Elementor's API while preserving existing kit settings. Check both the editor and frontend after publishing any layout changes.
 
-On the first administrator request after installing this release, setup installs and activates missing official plugins from WordPress.org: Elementor, Ultimate Addons for Elementor / Header Footer Builder, Yoast SEO, WooCommerce, UpdraftPlus and Limit Login Attempts Reloaded. Existing plugin files are not edited. A second admin request may be required after activation to finish the layout migration. Installation errors appear in an admin notice; resolve the reported issue and reload.
+## Journal
 
-The migration saves a recovery copy of each original Elementor page in `_taabeer_before_visual_1_1`, retains existing content, and skips already converted pages on later requests. Demo reimport reuses nested pages instead of creating duplicates. Shared layouts are stored in the database. Repository updates replace theme code; they do not synchronise every live database edit back to GitHub.
+Open **Journal > All Stories > Edit with Elementor** for an individual story. Titles, slugs, excerpts, featured images and publication status remain normal WordPress fields. The listing template is linked from TAABEER setup. Published stories appear in its dynamic grid; the existing sample remains a draft.
 
-UpdraftPlus schedules daily file and database backups where no active schedule exists. Connect client-owned remote storage in UpdraftPlus and confirm successful backups. Hosting daily backups and offsite restore testing need hosting/storage access; plugin installation alone does not verify them. Login protection uses the official plugin's settings.
+Edit each story's SEO title, description and focus phrase in its normal Yoast panel. Archive SEO settings are under Yoast settings for the Journal content type. This release adds a Journal archive title/description and retains later client edits.
 
-## SEO and content
+## Contact and newsletter
 
-Page titles, descriptions and initial focus phrases are prepared in Yoast without replacing custom client metadata. Edit them in the page's Yoast panel; edit slugs in WordPress page settings. Yoast provides the sitemap at `/sitemap_index.xml`. A focus phrase is an editorial aid, not a ranking guarantee. No numeric SEO score is fabricated. Unapproved content retains its review status and noindex protection; confirm final copy, imagery and legal wording before indexing.
+On the Contact page, select the TAABEER Contact widget in Elementor and set **Receive enquiries at**. Its visible details use separate editable widgets. The placeholder phone/email and final business details still need the client's approval.
 
-Analytics measurement ID is under TAABEER setup and only loads after analytics consent. Search Console verification can be entered in Yoast once the client supplies access. Newsletter signup remains unavailable until an email platform and privacy wording are approved.
+On the homepage, select **TAABEER Newsletter** and set **Receive subscriber notifications at**. A blank value uses the WordPress administrator inbox. Form labels, consent text, messages, colours and field spacing are editable in Elementor. This is a custom widget for Elementor Free, not Elementor Pro's paid Form widget.
 
-## Commerce remains in draft
+Subscribers are listed under **TAABEER > Newsletter subscribers**, with pending, confirmed and unsubscribed status. The workflow is:
 
-WooCommerce is active, but purchasing is disabled. Shop, basket, checkout and account pages remain draft; sample products are draft and not purchasable. Categories, Size/Colour/Material attributes and inactive UK/international delivery zones are prepared. No shipping rates, tax rules or payment accounts are invented.
+1. Visitor enters an email and explicitly agrees to updates.
+2. WordPress sends a confirmation link, valid for 48 hours.
+3. Confirmation activates the subscription, sends a welcome/unsubscribe link and notifies the configured inbox.
+4. Unsubscribe links and the administrator action stop the subscription.
 
-The product, shop and editorial archive templates are editable from TAABEER setup. Dynamic fields use the current product/story/collection; product prices, stock, variations, shipping and orders are managed in WooCommerce, not Elementor. Basket/checkout/account business controls remain official WooCommerce output inside editable Elementor page layouts.
+Subscriber records remain in the WordPress database. Pending requests are cleaned up after 30 days through WP-Cron. Native **Tools > Export/Erase Personal Data** includes newsletter records. Forms use signed configuration, nonce checks, a honeypot and rate limiting.
 
-Before enabling purchases: replace all sample data; supply approved product imagery and copy; add price, SKU, inventory and variations; configure payment, delivery rates, taxes and returns; test successful and failed payments, order emails, mobile checkout and refunds. Then enable purchasing in TAABEER setup. Only prepared commerce pages are published by that control.
+No external mailing-list service is required for signup or notifications. This release does **not** include a bulk campaign composer or campaign delivery service. All messages use `wp_mail` and the hosting mail transport. Local tests intercept email; actual inbox delivery must still be tested on the live host. Configure the host's mail transport if delivery fails.
 
-## Updates
+## SEO, indexing and consent
 
-Use **TAABEER → GitHub updates** to check and install a repository release. The existing updater remains compatible with its older Tools URL. Removing the updater stops repository checks; installed content and Elementor editing remain available.
+Published brand and legal pages have native Yoast titles, descriptions and focus phrases. Elementor's own serializer supplies WordPress page content for search and analysis. No SEO score is fabricated. A green Yoast analysis or search position is not guaranteed by metadata; final copy, photography and native editor analysis remain relevant. Existing public slugs are retained.
 
-Official plugin updates retain database content and custom theme code. No code can guarantee compatibility with every future major release: take a backup, test important upgrades on staging, and check editor, forms and checkout afterwards. Keep the Taabeer theme active to retain its custom Elementor widgets.
+Privacy and Cookie Policy pages now explain the current forms, subscriber storage and consent behaviour. They are editable in Elementor and indexable, as requested. The client must confirm final business identity, provider and retention details. The text is a project policy draft, not a legal compliance certification.
 
-## 1.1.1 repairs and editorial pages
+Yoast's sitemap is at `/sitemap_index.xml`; legal pages are included when site indexing is enabled. Local staging retains its noindex setting. Draft stories, products and checkout pages remain unpublished. On production, keep **Settings > Reading > Discourage search engines** unchecked if indexing is intended. Indexability does not guarantee that a search engine will include a page.
 
-The theme repairs a missing or invalid Elementor active-kit reference through Elementor's official kit API. It reuses an existing published kit when available and creates one only when necessary. Newly created kits receive the Taabeer palette; existing kit settings are preserved.
+Cookie preferences last up to 180 days. Optional Google Analytics loads only with consent; withdrawing consent disables it and removes accessible Analytics cookies. The measurement ID is entered in TAABEER setup. Search Console verification is managed through Yoast. Actual Analytics/Search Console account connections still require client access.
 
-Contemporary Pakistan, Pakistan in the Making, New Voices, and five regional notebooks use native Elementor containers, headings, text, images and buttons. Their one-time redesign stores the previous content, Elementor data and status under `_taabeer_before_editorial_1_1_1`; later admin visits do not reapply the migration. The imagery is identified as material studies, not documentary photographs of the regions. These are introductory editorial pages; verified maker profiles remain future content.
+## Commerce, backups and updates
 
-The older `tools.php?page=taabeer-updates` link has an explicit screen title so PHP 8.3 does not receive a null admin title after the menu relocation. Official WordPress/plugin files remain unchanged. The homepage partnership button has a dark background and white label.
+WooCommerce is installed and purchasing remains disabled. Shop, cart, checkout, account pages and sample products stay draft. Categories, Size/Colour/Material attributes and inactive UK/international delivery zones are prepared. Product prices, stock, variations, orders and delivery settings are managed in WooCommerce; Elementor controls their presentation.
 
-The kit, content preservation, draft commerce and legacy updater title were checked locally. Live editor checks, responsive visual review of the new layouts, and actual Yoast analysis scores still require a connected browser; setting metadata alone does not prove a green analysis score.
+Before enabling commerce, supply approved products, payment accounts, shipping rates, taxes and returns wording, then test successful/failed transactions, order emails, refunds and mobile checkout.
 
-## 1.1.2 consistent green accents
+The foundation includes Elementor, Header Footer Builder/UAE, Yoast, WooCommerce, UpdraftPlus and Limit Login Attempts Reloaded. Daily WordPress backup schedules are configured. Client-owned remote backup storage, hosting daily backups and a restore test still need confirmation. Take backups and test compatibility before major upgrades; no implementation can guarantee every future third-party update.
 
-The five regional notebooks and three Discover subpages use a green introduction panel beside the lead image. The regional overview uses matching green card captions, and About has a smaller green connection panel. Colours are stored in native Elementor container Background, Heading Text Colour, Text Editor Text Colour and Button controls. The shared stylesheet supplies responsive spacing.
+**TAABEER > GitHub updates** checks and installs published theme releases. A Git push prepares a release; the current updater requires an install action in WordPress. It does not merge or reverse-sync live database edits into Git. Deleting it stops repository updates and leaves the installed theme/content intact.
 
-The one-time styling migration preserves existing paragraphs, image references, links and element IDs. It keeps a recovery copy in `_taabeer_before_green_1_1_2` and does not reapply on later admin visits. Existing explicit style values are retained where present. All ten affected routes were checked locally for successful rendering, one H1, native Elementor green/ivory CSS and PHP warnings. The intended ivory-on-green combination has a 10.54:1 contrast ratio. Browser-based visual verification and live deployment remain pending while browser control is unavailable.
+One-time migrations save recovery metadata before changing the legal pages or extending the homepage. Subsequent admin visits do not reapply them. Routine theme releases preserve saved Elementor content; this release intentionally updates legal text and SEO metadata as requested. Theme file customisations should be kept in Git or a child theme because an update replaces parent-theme files.
+
+## Verification and remaining checks
+
+Local verification covers newsletter confirmation/unsubscribe/privacy/rate limiting/mail-failure handling, native mobile CSS generation, colour persistence, menu keyboard behaviour, cookie consent and expiry, content preservation, draft commerce and public-page SEO structure. Test emails were intercepted and never sent.
+
+Browser-based desktop/tablet/mobile visual review, saving changes in the live Elementor interface, actual native Yoast indicator colours and real hosting email delivery remain unverified. Computer Use currently reports an unavailable Windows native pipe. Installing the release and completing those checks is required before final delivery sign-off. Client-approved photography, final contact details, legal business details, analytics ownership and backup destinations also remain to be supplied or confirmed.

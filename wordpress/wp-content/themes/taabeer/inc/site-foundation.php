@@ -92,7 +92,10 @@ function taabeer_ensure_elementor_kit() {
 	if(!did_action('elementor/init') || !isset(\Elementor\Plugin::instance()->kits_manager)){return 0;}
 	$manager=\Elementor\Plugin::instance()->kits_manager;
 	$id=(int)get_option('elementor_active_kit');
-	if($id && $manager->is_kit($id) && 'trash'!==get_post_status($id)){return $id;}
+	if($id && $manager->is_kit($id) && 'trash'!==get_post_status($id)){
+		if('publish'!==get_post_status($id)){wp_update_post(array('ID'=>$id,'post_status'=>'publish'));}
+		return $id;
+	}
 	$available=get_posts(array('post_type'=>'elementor_library','post_status'=>'publish','posts_per_page'=>1,'meta_key'=>'_elementor_template_type','meta_value'=>'kit'));
 	$id=$available?(int)$available[0]->ID:$manager->create_default();
 	if(!$id || is_wp_error($id)){return 0;}

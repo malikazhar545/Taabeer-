@@ -93,6 +93,29 @@ class Taabeer_Visual_Cookies extends Taabeer_Elementor_Widget_Base {
 	}
 }
 
+class Taabeer_Visual_Newsletter extends Taabeer_Elementor_Widget_Base {
+	public function get_name() { return 'taabeer-newsletter'; }
+	public function get_title() { return 'TAABEER Newsletter'; }
+	public function get_icon() { return 'eicon-mail'; }
+	protected function register_controls() {
+		$this->start_controls_section('content',array('label'=>'Subscription form'));
+		foreach(taabeer_newsletter_defaults() as $key=>$default) {
+			$control=array('label'=>ucwords(str_replace('_',' ',$key)),'type'=>'textarea','default'=>$default);
+			if('recipient_email'===$key){$control=array('label'=>'Receive subscriber notifications at','type'=>'text','input_type'=>'email','description'=>'Leave blank to use the WordPress administrator inbox. Confirmation emails go to the subscriber through the website mail service.');}
+			$this->add_control($key,$control);
+		}
+		$this->end_controls_section();
+		$this->start_controls_section('newsletter_style',array('label'=>'Form appearance','tab'=>\Elementor\Controls_Manager::TAB_STYLE));
+		$this->add_control('field_background',array('label'=>'Field background','type'=>'color','selectors'=>array('{{WRAPPER}} input[type=email]'=>'background-color: {{VALUE}};')));
+		$this->add_control('field_text',array('label'=>'Field text','type'=>'color','selectors'=>array('{{WRAPPER}} input[type=email]'=>'color: {{VALUE}};')));
+		$this->add_control('button_background',array('label'=>'Button background','type'=>'color','selectors'=>array('{{WRAPPER}} button'=>'background-color: {{VALUE}};border-color: {{VALUE}};')));
+		$this->add_control('button_text',array('label'=>'Button text','type'=>'color','selectors'=>array('{{WRAPPER}} button'=>'color: {{VALUE}};')));
+		$this->add_responsive_control('field_padding',array('label'=>'Field padding','type'=>'dimensions','size_units'=>array('px','em'),'selectors'=>array('{{WRAPPER}} input[type=email]'=>'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};')));
+		$this->end_controls_section();
+	}
+	protected function render() { echo taabeer_newsletter_form($this->get_settings_for_display()); }
+}
+
 /** Style tabs on all TAABEER widgets: text, backgrounds, fonts, borders and spacing. */
 add_action('elementor/element/after_section_end', function($element,$section) {
 	if('content'!==$section || ! $element instanceof Taabeer_Elementor_Widget_Base) { return; }
@@ -102,6 +125,21 @@ add_action('elementor/element/after_section_end', function($element,$section) {
 	$element->add_group_control(\Elementor\Group_Control_Typography::get_type(),array('name'=>'tb_heading_font','label'=>'Heading typography','selector'=>'{{WRAPPER}} h1, {{WRAPPER}} h2, {{WRAPPER}} h3'));
 	$element->add_group_control(\Elementor\Group_Control_Typography::get_type(),array('name'=>'tb_body_font','label'=>'Body typography','selector'=>'{{WRAPPER}} p, {{WRAPPER}} a'));
 	$element->add_group_control(\Elementor\Group_Control_Background::get_type(),array('name'=>'tb_background','selector'=>'{{WRAPPER}} > .elementor-widget-container'));
+	$element->add_responsive_control('tb_inner_padding',array('label'=>'Section padding','type'=>'dimensions','size_units'=>array('px','em','%'),'selectors'=>array('{{WRAPPER}} > .elementor-widget-container > section, {{WRAPPER}} > .elementor-widget-container > .tb-newsletter-wrap, {{WRAPPER}} > .elementor-widget-container > .contact-form-wrap'=>'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};')));
+	$element->add_responsive_control('tb_content_align',array('label'=>'Text alignment','type'=>'choose','options'=>array('left'=>array('title'=>'Left','icon'=>'eicon-text-align-left'),'center'=>array('title'=>'Centre','icon'=>'eicon-text-align-center'),'right'=>array('title'=>'Right','icon'=>'eicon-text-align-right')),'selectors'=>array('{{WRAPPER}} p, {{WRAPPER}} h1, {{WRAPPER}} h2, {{WRAPPER}} h3'=>'text-align: {{VALUE}};')));
+	if('taabeer-hero'===$element->get_name()){
+		$element->add_responsive_control('tb_hero_height',array('label'=>'Minimum hero height','type'=>'slider','size_units'=>array('px','vh'),'range'=>array('px'=>array('min'=>0,'max'=>1200)),'selectors'=>array('{{WRAPPER}} .home-hero'=>'min-height: {{SIZE}}{{UNIT}};')));
+		$element->add_responsive_control('tb_hero_crop',array('label'=>'Image focus','type'=>'select','options'=>array('left center'=>'Left','center center'=>'Centre','right center'=>'Right'),'selectors'=>array('{{WRAPPER}} .home-hero img'=>'object-position: {{VALUE}};')));
+	}
+	if(in_array($element->get_name(),array('taabeer-collections','taabeer-story-grid','taabeer-dynamic'),true)){
+		$element->add_responsive_control('tb_grid_columns',array('label'=>'Grid columns','type'=>'number','min'=>1,'max'=>4,'selectors'=>array('{{WRAPPER}} .collection-editorial-grid, {{WRAPPER}} .story-grid'=>'grid-template-columns:repeat({{VALUE}},minmax(0,1fr));','{{WRAPPER}} .collection-card'=>'grid-column:auto;')));
+	}
+	if('taabeer-contact'===$element->get_name()){
+		$element->add_control('tb_field_background',array('label'=>'Field background','type'=>'color','selectors'=>array('{{WRAPPER}} input:not([type=checkbox]), {{WRAPPER}} textarea, {{WRAPPER}} select'=>'background-color:{{VALUE}};')));
+		$element->add_control('tb_field_text',array('label'=>'Field text','type'=>'color','selectors'=>array('{{WRAPPER}} input, {{WRAPPER}} textarea, {{WRAPPER}} select'=>'color:{{VALUE}};')));
+		$element->add_control('tb_form_button_color',array('label'=>'Button background','type'=>'color','selectors'=>array('{{WRAPPER}} button'=>'background-color:{{VALUE}};border-color:{{VALUE}};')));
+		$element->add_responsive_control('tb_field_padding',array('label'=>'Field padding','type'=>'dimensions','size_units'=>array('px','em'),'selectors'=>array('{{WRAPPER}} input:not([type=checkbox]), {{WRAPPER}} textarea, {{WRAPPER}} select'=>'padding:{{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};')));
+	}
 	$element->end_controls_section();
 },10,2);
 

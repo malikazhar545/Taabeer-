@@ -47,6 +47,7 @@ function taabeer_register_elementor_widgets( $widgets_manager ) {
 	$widgets_manager->register( new \Taabeer_Visual_Utility() );
 	$widgets_manager->register( new \Taabeer_Visual_Dynamic() );
 	$widgets_manager->register( new \Taabeer_Visual_Cookies() );
+	$widgets_manager->register( new \Taabeer_Visual_Newsletter() );
 }
 add_action( 'elementor/widgets/register', 'taabeer_register_elementor_widgets' );
 
@@ -82,3 +83,22 @@ function taabeer_elementor_cpt_support() {
 	update_option( 'elementor_cpt_support', $supported );
 }
 add_action( 'after_switch_theme', 'taabeer_elementor_cpt_support' );
+
+/** Bridge native container controls to legacy editorial CSS that uses direct properties. */
+add_action('elementor/element/before_section_end',function($element,$section){
+	if('container'!==$element->get_name()){return;}
+	$declarations=array(
+		'padding'=>'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+		'margin'=>'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+		'width'=>'width: {{SIZE}}{{UNIT}};',
+		'min_height'=>'min-height: {{SIZE}}{{UNIT}};',
+		'flex_gap'=>'gap: {{ROW}}{{UNIT}} {{COLUMN}}{{UNIT}};',
+	);
+	$stack=$element->get_stack();
+	foreach($declarations as $name=>$declaration){
+		$control=$stack['style_controls'][$name]??$stack['controls'][$name]??null;
+		if(!$control || ($control['section']??'')!==$section){continue;}
+		$control['selectors']['{{WRAPPER}}.tb-visual']=$declaration;
+		$element->update_responsive_control($name,$control);
+	}
+},10,2);

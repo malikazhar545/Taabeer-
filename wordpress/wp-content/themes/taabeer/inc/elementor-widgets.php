@@ -10,6 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class Taabeer_Elementor_Widget_Base extends \Elementor\Widget_Base {
+	/** Give WordPress/Yoast real visible content without persisting form tokens. */
+	public function render_plain_content() {
+		ob_start();$this->render();$html=taabeer_semantic_eyebrows(ob_get_clean());
+		$html=preg_replace('#<(script|style)[^>]*>.*?</\1>#is','',$html);
+		echo wp_kses($html,array('h1'=>array(),'h2'=>array(),'h3'=>array(),'h4'=>array(),'p'=>array(),'a'=>array('href'=>true),'img'=>array('src'=>true,'alt'=>true),'ul'=>array(),'ol'=>array(),'li'=>array(),'strong'=>array(),'em'=>array(),'br'=>array()));
+	}
 	public function get_categories() {
 		return array( 'taabeer' );
 	}

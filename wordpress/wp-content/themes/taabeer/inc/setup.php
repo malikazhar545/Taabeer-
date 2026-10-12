@@ -67,7 +67,8 @@ function taabeer_assets() {
 		)
 	);
 }
-add_action( 'wp_enqueue_scripts', 'taabeer_assets' );
+// Load theme defaults before generated Elementor document CSS, so saved choices win.
+add_action( 'wp_enqueue_scripts', 'taabeer_assets', 5 );
 
 function taabeer_editor_assets() {
 	add_editor_style( 'assets/css/editor.css' );
