@@ -84,6 +84,13 @@ function taabeer_elementor_cpt_support() {
 }
 add_action( 'after_switch_theme', 'taabeer_elementor_cpt_support' );
 
+// Rebuild stored CSS after separating desktop navigation and expanded-menu colours.
+add_action('admin_init',function(){
+	if(!current_user_can('manage_options') || !did_action('elementor/init') || get_option('taabeer_navigation_css_1_2_2')){return;}
+	\Elementor\Plugin::instance()->files_manager->clear_cache();
+	update_option('taabeer_navigation_css_1_2_2',1);
+},60);
+
 /** Bridge native container controls to legacy editorial CSS that uses direct properties. */
 add_action('elementor/element/before_section_end',function($element,$section){
 	if('container'!==$element->get_name()){return;}

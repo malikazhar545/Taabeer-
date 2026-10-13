@@ -14,6 +14,11 @@ class Taabeer_Visual_Navigation extends Taabeer_Elementor_Widget_Base {
 		$this->add_control( 'items', array( 'label' => 'Menu links', 'type' => 'repeater', 'fields' => $r->get_controls(), 'title_field' => '{{{ text }}}', 'default' => array() ) );
 		$this->add_control( 'open_label', array( 'label' => 'Open menu label', 'type' => 'text', 'default' => 'Open navigation' ) );
 		$this->end_controls_section();
+		$this->start_controls_section('drawer_style',array('label'=>'Expanded menu colours','tab'=>\Elementor\Controls_Manager::TAB_STYLE));
+		foreach(array('background'=>'Background','link'=>'Link text','hover'=>'Hover / keyboard focus') as $key=>$label){
+			$this->add_control('drawer_'.$key,array('label'=>$label,'type'=>'color','selectors'=>array('{{WRAPPER}}'=>'--taabeer-drawer-'.$key.': {{VALUE}};')));
+		}
+		$this->end_controls_section();
 	}
 	protected function render() {
 		$s = $this->get_settings_for_display();
@@ -121,7 +126,8 @@ add_action('elementor/element/after_section_end', function($element,$section) {
 	if('content'!==$section || ! $element instanceof Taabeer_Elementor_Widget_Base) { return; }
 	$element->start_controls_section('tb_visual_style',array('label'=>'TAABEER styling','tab'=>\Elementor\Controls_Manager::TAB_STYLE));
 	$element->add_control('tb_heading_color',array('label'=>'Heading colour','type'=>'color','selectors'=>array('{{WRAPPER}} h1, {{WRAPPER}} h2, {{WRAPPER}} h3'=>'color: {{VALUE}};')));
-	$element->add_control('tb_text_color',array('label'=>'Text colour','type'=>'color','selectors'=>array('{{WRAPPER}}, {{WRAPPER}} p, {{WRAPPER}} a'=>'color: {{VALUE}};')));
+	$text_selectors='taabeer-navigation'===$element->get_name()?array('{{WRAPPER}}'=>'--taabeer-navigation-link: {{VALUE}};'):array('{{WRAPPER}}, {{WRAPPER}} p, {{WRAPPER}} a'=>'color: {{VALUE}};');
+	$element->add_control('tb_text_color',array('label'=>'Text colour','type'=>'color','selectors'=>$text_selectors));
 	$element->add_group_control(\Elementor\Group_Control_Typography::get_type(),array('name'=>'tb_heading_font','label'=>'Heading typography','selector'=>'{{WRAPPER}} h1, {{WRAPPER}} h2, {{WRAPPER}} h3'));
 	$element->add_group_control(\Elementor\Group_Control_Typography::get_type(),array('name'=>'tb_body_font','label'=>'Body typography','selector'=>'{{WRAPPER}} p, {{WRAPPER}} a'));
 	$element->add_group_control(\Elementor\Group_Control_Background::get_type(),array('name'=>'tb_background','selector'=>'{{WRAPPER}} > .elementor-widget-container'));

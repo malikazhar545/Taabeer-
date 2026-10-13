@@ -1,4 +1,4 @@
-# TAABEER 1.2.1 - editing and handover
+# TAABEER 1.2.2 - editing and handover
 
 Release prepared on 13 October 2026. This theme uses Elementor Free and does not modify WordPress or official plugin source files.
 
@@ -75,3 +75,10 @@ Open **Pages > All Pages** after installing this release. An administrator-only 
 The calculation uses current rendered Elementor content, current focus phrase, SEO title/description and real browser title-width measurement. It stores the engine's results in Yoast's standard metadata and rebuilds the indexable. It rejects stale results when the content changes. No green score is hard-coded, and detailed editor recommendations can still differ where another plugin contributes editor-specific analysis data. Official Yoast/Elementor source files remain untouched.
 
 Collections, Discover, Regions, Partnerships and Contact now have clearer introductory labels. Discover and Regions have a short explanatory section; Contact has a native Elementor accordion with useful enquiry guidance. The one-time migration retains recovery copies and does not rerun over subsequent client edits. Local installed-engine diagnostics improved these pages into the green SEO range; browser execution and live appearance still require confirmation after installing the release.
+
+
+## 1.2.2 newsletter screen and expanded navigation
+
+The Newsletter subscribers submenu now registers after its TAABEER parent. This ensures WordPress resolves the correct admin page handler. The subscriber list also handles empty/single-page pagination without a PHP deprecation warning.
+
+Expanded navigation uses ivory links on the deep-green background, with gold hover/focus styling. Edit these independently of desktop links in the shared header's **TAABEER Navigation > Style > Expanded menu colours** controls. The update clears generated Elementor CSS once; stored page content and subscriber records are retained.

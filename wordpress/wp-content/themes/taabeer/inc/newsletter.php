@@ -112,7 +112,8 @@ function taabeer_newsletter_link_action() {
 }
 foreach(array('confirm','unsubscribe') as $action){add_action('admin_post_nopriv_taabeer_newsletter_'.$action,'taabeer_newsletter_link_action');add_action('admin_post_taabeer_newsletter_'.$action,'taabeer_newsletter_link_action');}
 
-add_action('admin_menu',function(){add_submenu_page('taabeer-setup','Newsletter subscribers','Newsletter subscribers','manage_options','taabeer-newsletter','taabeer_newsletter_admin');});
+// The parent menu must exist before WordPress derives this submenu's hook name.
+add_action('admin_menu',function(){add_submenu_page('taabeer-setup','Newsletter subscribers','Newsletter subscribers','manage_options','taabeer-newsletter','taabeer_newsletter_admin');},20);
 function taabeer_newsletter_admin() {
 	if(!current_user_can('manage_options')){return;}
 	global $wpdb;$table=taabeer_newsletter_table();$page=max(1,absint($_GET['paged']??1));$offset=($page-1)*50;
@@ -120,7 +121,10 @@ function taabeer_newsletter_admin() {
 	echo '<div class="wrap"><h1>Newsletter subscribers</h1><p>Subscriptions are stored in WordPress. Pending addresses require email confirmation. Configure the notification inbox in the TAABEER Newsletter widget in Elementor. This panel records subscribers; it does not send bulk campaigns.</p><p>'.esc_html(number_format_i18n($total)).' records</p><table class="widefat striped"><thead><tr><th>Email</th><th>Status</th><th>Requested (UTC)</th><th>Confirmed (UTC)</th><th>Action</th></tr></thead><tbody>';
 	foreach($rows as $row){echo '<tr><td>'.esc_html($row->email).'</td><td>'.esc_html(ucfirst($row->status)).'</td><td>'.esc_html($row->created_at).'</td><td>'.esc_html($row->confirmed_at?:'—').'</td><td>';if('confirmed'===$row->status){echo '<form action="'.esc_url(admin_url('admin-post.php')).'" method="post"><input type="hidden" name="action" value="taabeer_newsletter_admin_unsubscribe"><input type="hidden" name="subscriber" value="'.absint($row->id).'">';wp_nonce_field('tb_subscriber_'.$row->id);echo '<button class="button">Unsubscribe</button></form>';}echo '</td></tr>';}
 	if(!$rows){echo '<tr><td colspan="5">No subscriptions yet.</td></tr>';}
-	echo '</tbody></table>';echo wp_kses_post(paginate_links(array('base'=>add_query_arg('paged','%#%'),'total'=>(int)ceil($total/50),'current'=>$page)));echo '<p>Use Tools → Export Personal Data / Erase Personal Data for subscriber privacy requests.</p></div>';
+	echo '</tbody></table>';
+	$pagination=paginate_links(array('base'=>add_query_arg('paged','%#%'),'total'=>(int)ceil($total/50),'current'=>$page));
+	if($pagination){echo wp_kses_post($pagination);}
+	echo '<p>Use Tools → Export Personal Data / Erase Personal Data for subscriber privacy requests.</p></div>';
 }
 add_action('admin_post_taabeer_newsletter_admin_unsubscribe',function(){if(!current_user_can('manage_options')){wp_die('Not permitted','',array('response'=>403));} $id=absint($_POST['subscriber']??0);check_admin_referer('tb_subscriber_'.$id);global $wpdb;$wpdb->update(taabeer_newsletter_table(),array('status'=>'unsubscribed','updated_at'=>current_time('mysql',true)),array('id'=>$id));wp_safe_redirect(admin_url('admin.php?page=taabeer-newsletter'));exit;});
 
