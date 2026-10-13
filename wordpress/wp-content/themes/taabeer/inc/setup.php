@@ -44,7 +44,9 @@ function taabeer_setup() {
 add_action( 'after_setup_theme', 'taabeer_setup' );
 
 function taabeer_assets() {
-	wp_enqueue_style( 'taabeer-style', TAABEER_URI . '/assets/css/taabeer.css', array(), TAABEER_VERSION );
+	// Base Elementor rules must precede the editorial defaults; document CSS follows them.
+	$dependencies = did_action( 'elementor/loaded' ) ? array( 'elementor-frontend' ) : array();
+	wp_enqueue_style( 'taabeer-style', TAABEER_URI . '/assets/css/taabeer.css', $dependencies, TAABEER_VERSION );
 	if ( is_front_page() ) {
 		wp_enqueue_style( 'taabeer-homepage', TAABEER_URI . '/assets/css/homepage.css', array( 'taabeer-style' ), TAABEER_VERSION );
 	}

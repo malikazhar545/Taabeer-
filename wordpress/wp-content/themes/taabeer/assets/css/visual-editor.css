@@ -1,7 +1,7 @@
 /* Shared visual language. Elementor's generated per-element settings load after these defaults. */
 .taabeer-site { --taabeer-shell: min(1280px, calc(100% - 96px)); }
 .taabeer-site .elementor .elementor-section.elementor-section-boxed > .elementor-container { max-width: none; }
-.taabeer-site .site-header__inner { width: var(--taabeer-shell); }
+.taabeer-site .site-header__inner { width: var(--taabeer-shell); margin-inline:auto; }
 .e-con.tb-visual { --container-default-padding-top:0px; --container-default-padding-bottom:0px; --container-default-padding-left:0px; --container-default-padding-right:0px; --widgets-spacing:0px; --gap:0px; --display:block; --width:100%; --flex-grow:0; --flex-shrink:1; --container-widget-width:100%; --container-widget-flex-grow:0; padding:0; gap:0; }
 .e-con.tb-visual.shell { width:var(--taabeer-shell); margin-inline:auto; }
 .elementor-widget.tb-visual { --widgets-spacing:0px; margin-bottom:0; min-width:0; }
@@ -280,6 +280,8 @@
 .tb-policy-copy{max-width:820px;}
 .eyebrow{display:block;}
 .e-con.tb-about-next{padding-top:40px;}
+.e-con.tb-seo-note{padding-block:48px 16px;max-width:900px;}
+.tb-seo-note > .elementor-widget-heading:has(h2){font-size:clamp(1.6rem,2.4vw,2.1rem);margin-bottom:24px;}
 .tb-policy-copy > .elementor-widget-heading{margin-top:36px;}
 .tb-policy-copy > .elementor-widget-text-editor{line-height:1.85;}
 .elementor-widget.tb-visual,.e-con.tb-visual{min-width:0;}

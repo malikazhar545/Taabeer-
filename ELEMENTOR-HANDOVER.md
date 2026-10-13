@@ -1,4 +1,4 @@
-# TAABEER 1.2.0 - editing and handover
+# TAABEER 1.2.1 - editing and handover
 
 Release prepared on 13 October 2026. This theme uses Elementor Free and does not modify WordPress or official plugin source files.
 
@@ -64,3 +64,14 @@ One-time migrations save recovery metadata before changing the legal pages or ex
 Local verification covers newsletter confirmation/unsubscribe/privacy/rate limiting/mail-failure handling, native mobile CSS generation, colour persistence, menu keyboard behaviour, cookie consent and expiry, content preservation, draft commerce and public-page SEO structure. Test emails were intercepted and never sent.
 
 Browser-based desktop/tablet/mobile visual review, saving changes in the live Elementor interface, actual native Yoast indicator colours and real hosting email delivery remain unverified. Computer Use currently reports an unavailable Windows native pipe. Installing the release and completing those checks is required before final delivery sign-off. Client-approved photography, final contact details, legal business details, analytics ownership and backup destinations also remain to be supplied or confirmed.
+
+
+## 1.2.1 header and Yoast analysis repair
+
+Elementor base CSS now loads before theme layout defaults, with per-page Elementor settings following them. This repairs the shared logo/header alignment regression introduced in 1.2.0 and preserves editable spacing controls.
+
+Open **Pages > All Pages** after installing this release. An administrator-only notice automatically calculates missing/stale analyses with the installed Yoast JavaScript engine. Wait for completion and select **Show updated scores** to refresh the native Yoast columns. **Recalculate analyses** can repeat the checks. The same integration is available on the Journal listing for published stories. Draft commerce content is excluded.
+
+The calculation uses current rendered Elementor content, current focus phrase, SEO title/description and real browser title-width measurement. It stores the engine's results in Yoast's standard metadata and rebuilds the indexable. It rejects stale results when the content changes. No green score is hard-coded, and detailed editor recommendations can still differ where another plugin contributes editor-specific analysis data. Official Yoast/Elementor source files remain untouched.
+
+Collections, Discover, Regions, Partnerships and Contact now have clearer introductory labels. Discover and Regions have a short explanatory section; Contact has a native Elementor accordion with useful enquiry guidance. The one-time migration retains recovery copies and does not rerun over subsequent client edits. Local installed-engine diagnostics improved these pages into the green SEO range; browser execution and live appearance still require confirmation after installing the release.

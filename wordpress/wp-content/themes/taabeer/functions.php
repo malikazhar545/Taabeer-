@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'TAABEER_VERSION', '1.2.0' );
+define( 'TAABEER_VERSION', '1.2.1' );
 define( 'TAABEER_DIR', get_template_directory() );
 define( 'TAABEER_URI', get_template_directory_uri() );
 
@@ -27,6 +27,7 @@ $taabeer_includes = array(
 	'/inc/newsletter.php',
 	'/inc/delivery-update.php',
 	'/inc/seo.php',
+	'/inc/seo-analysis.php',
 	'/inc/woocommerce.php',
 	'/inc/demo-import.php',
 );
