@@ -230,14 +230,25 @@ body.taabeer-site.admin-bar #masthead { top: -2px; }
 .taabeer-site .tb-visual.tb-hx-art__cta { padding-top: 6px; color: var(--taabeer-green); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; border-bottom: 1px solid var(--taabeer-gold); width: auto; }
 .taabeer-site .tb-hx-art--compact .tb-hx-art__image { order: -1; margin: 0 0 10px; }
 
+/* Smaller screens: a grid that scrolls vertically; an odd last card is centred. */
 @media (max-width: 1100px) {
   .taabeer-site .e-con.tb-hx-arts,
-  .taabeer-site .e-con.tb-hx-arts--four { display: grid; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(230px, 42%); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 18px; scrollbar-width: thin; scrollbar-color: var(--taabeer-gold) transparent; }
-  .taabeer-site .e-con.tb-hx-art { scroll-snap-align: start; }
+  .taabeer-site .e-con.tb-hx-arts--four { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 40px 22px; }
+  .taabeer-site .e-con.tb-hx-arts > .e-con.tb-hx-art { grid-column: span 2; width: auto; }
+  .taabeer-site .e-con.tb-hx-arts > .e-con.tb-hx-art:nth-last-child(2):nth-child(3n + 1) { grid-column: 2 / span 2; }
+  .taabeer-site .e-con.tb-hx-arts--four > .e-con.tb-hx-art { grid-column: span 3; }
+  .taabeer-site .e-con.tb-hx-arts--four > .e-con.tb-hx-art:nth-last-child(2):nth-child(3n + 1) { grid-column: span 3; }
 }
-@media (max-width: 600px) {
+@media (max-width: 760px) {
   .taabeer-site .e-con.tb-hx-arts,
-  .taabeer-site .e-con.tb-hx-arts--four { grid-auto-columns: 74%; }
+  .taabeer-site .e-con.tb-hx-arts--four { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px 14px; }
+  .taabeer-site .e-con.tb-hx-arts > .e-con.tb-hx-art,
+  .taabeer-site .e-con.tb-hx-arts > .e-con.tb-hx-art:nth-last-child(2):nth-child(3n + 1),
+  .taabeer-site .e-con.tb-hx-arts--four > .e-con.tb-hx-art { grid-column: span 2; }
+  .taabeer-site .e-con.tb-hx-arts > .e-con.tb-hx-art:last-child:nth-child(odd) { grid-column: 2 / span 2; }
+  .taabeer-site .tb-visual.tb-hx-art__title { font-size: 1.35rem; }
+  .taabeer-site .tb-visual.tb-hx-art__short { min-height: 0; font-size: 0.8rem; }
+  .taabeer-site .tb-visual.tb-hx-art__number { font-size: 0.85rem; }
 }
 
 /* Featured story banner */
@@ -352,8 +363,8 @@ body.taabeer-site.admin-bar #masthead { top: -2px; }
 @media (max-width: 900px) {
   .taabeer-site .e-con.tb-hx-art-hero { grid-template-columns: 1fr; }
   .taabeer-site .e-con.tb-hx-art-hero__media { width: min(100% - 32px, 420px); margin-top: 24px; }
-  .taabeer-site .e-con.tb-hx-areas { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 76%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 16px; }
-  .taabeer-site .e-con.tb-hx-area { scroll-snap-align: start; }
+  .taabeer-site .e-con.tb-hx-areas { grid-template-columns: 1fr; gap: 44px; }
+  .taabeer-site .tb-visual.tb-hx-area__image { aspect-ratio: 4 / 3.4; }
 }
 
 /* ------------------------------------------------------------------------
