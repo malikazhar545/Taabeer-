@@ -10,9 +10,9 @@
     "color": {
       "defaultPalette": false,
       "palette": [
-        { "slug": "deep-green", "name": "Deep Green", "color": "#173F35" },
-        { "slug": "antique-gold", "name": "Antique Gold", "color": "#B59A60" },
-        { "slug": "warm-ivory", "name": "Warm Ivory", "color": "#F7F3EA" },
+        { "slug": "deep-green", "name": "Deep Green", "color": "#0F3A2D" },
+        { "slug": "antique-gold", "name": "Antique Gold", "color": "#C49A3A" },
+        { "slug": "warm-ivory", "name": "Warm Ivory", "color": "#F7F2E8" },
         { "slug": "charcoal", "name": "Charcoal", "color": "#252722" },
         { "slug": "soft-sage", "name": "Soft Sage", "color": "#DDE3DA" },
         { "slug": "white", "name": "White", "color": "#FFFFFF" }
@@ -74,10 +74,10 @@
         }
       },
       "link": {
-        "color": { "text": "#173F35" }
+        "color": { "text": "#0F3A2D" }
       },
       "button": {
-        "color": { "background": "#173F35", "text": "#FFFFFF" },
+        "color": { "background": "#0F3A2D", "text": "#FFFFFF" },
         "border": { "radius": "0px" },
         "typography": { "fontSize": "0.75rem", "fontWeight": "600", "letterSpacing": "0.14em", "textTransform": "uppercase" }
       }

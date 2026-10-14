@@ -117,7 +117,12 @@ function taabeer_is_built_with_elementor( $post_id = null ) {
 }
 
 function taabeer_demo_image_url( $filename ) {
-	return TAABEER_URI . '/assets/images/demo/' . ltrim( $filename, '/' );
+	$filename = ltrim( $filename, '/' );
+	// The Heritage direction supersedes the earlier concept photographs.
+	if ( function_exists( 'taabeer_heritage_image_map' ) && isset( taabeer_heritage_image_map()[ $filename ] ) ) {
+		return taabeer_art_image_url( taabeer_heritage_image_map()[ $filename ] );
+	}
+	return TAABEER_URI . '/assets/images/demo/' . $filename;
 }
 
 /**
